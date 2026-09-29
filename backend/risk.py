@@ -1,316 +1,301 @@
-from typing import List
+# ============================================================
+# ENVIRONMENTAL PREDICTION SYSTEM
+# CENTRAL RISK ENGINE
+# ============================================================
+
+RISK_PRIORITY = {
+    "UNKNOWN": -1,
+    "SAFE": 0,
+    "MEDIUM": 1,
+    "CRITICAL": 2,
+}
+
+
+RISK_SCORE = {
+    "UNKNOWN": 0.0,
+    "SAFE": 25.0,
+    "MEDIUM": 60.0,
+    "CRITICAL": 90.0,
+}
 
 
 # ============================================================
-# RAIN SENSOR ADC THRESHOLDS
+# HELPERS
 # ============================================================
 
-RAIN_MEDIUM_MIN = 1500
-RAIN_SAFE_MIN = 3500
+def to_float(value):
+    if value is None:
+        return None
+
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
 
 
-# ============================================================
-# HELPER FUNCTIONS
-# ============================================================
-
-def level_priority(level: str) -> int:
-    mapping = {
-        "UNKNOWN": -1,
-        "SAFE": 0,
-        "MEDIUM": 1,
-        "CRITICAL": 2
-    }
-    return mapping.get(level, -1)
-
-
-def level_score(level: str) -> float:
-    mapping = {
-        "SAFE": 30.0,
-        "MEDIUM": 65.0,
-        "CRITICAL": 95.0
-    }
-    return mapping.get(level, 0.0)
-
-
-def combine_levels(levels: List[str]) -> str:
-    valid_levels = [
-        level for level in levels
-        if level != "UNKNOWN"
+def highest_risk(*levels):
+    valid = [
+        level
+        for level in levels
+        if level in RISK_PRIORITY
+        and level != "UNKNOWN"
     ]
 
-    if not valid_levels:
-        return "SAFE"
+    if not valid:
+        return "UNKNOWN"
 
-    highest = "SAFE"
-
-    for level in valid_levels:
-        if level_priority(level) > level_priority(highest):
-            highest = level
-
-    return highest
+    return max(
+        valid,
+        key=lambda level: RISK_PRIORITY[level]
+    )
 
 
 # ============================================================
-# FLOOD CLASSIFICATION
+# WATER LEVEL
 # ============================================================
 
-def classify_water_level(water_level):
+def classify_water_level(value):
+    water_level = to_float(value)
+
     if water_level is None:
         return "UNKNOWN"
 
-    water_level = float(water_level)
-
-    # Arduino logic:
-    # <= 90     -> SAFE
-    # <= 110    -> MEDIUM
-    # > 110     -> CRITICAL
-
-    if water_level <= 90:
+    if water_level <= 90.0:
         return "SAFE"
 
-    if water_level <= 110:
+    if water_level <= 110.0:
         return "MEDIUM"
 
     return "CRITICAL"
 
 
-def classify_rain(rainfall):
+# ============================================================
+# RAIN SENSOR
+# ============================================================
+#
+# ADC < 1500       -> CRITICAL
+# ADC 1500 - 3500  -> MEDIUM
+# ADC > 3500       -> SAFE
+#
+# ============================================================
+
+def classify_rain(value):
+    rainfall = to_float(value)
+
     if rainfall is None:
         return "UNKNOWN"
 
-    rainfall = float(rainfall)
+    if rainfall < 1500.0:
+        return "CRITICAL"
 
-    # New rain ADC logic:
-    # < 1500        -> CRITICAL
-    # 1500 to 3500  -> MEDIUM
-    # > 3500        -> SAFE
-
-    if rainfall > RAIN_SAFE_MIN:
-        return "SAFE"
-
-    if rainfall >= RAIN_MEDIUM_MIN:
+    if rainfall <= 3500.0:
         return "MEDIUM"
 
-    return "CRITICAL"
+    return "SAFE"
 
 
-def get_rain_condition(rainfall):
+def get_rain_condition(value):
+    rainfall = to_float(value)
+
     if rainfall is None:
         return "UNAVAILABLE"
 
-    rainfall = float(rainfall)
+    if rainfall < 1500.0:
+        return "CRITICAL"
 
-    if rainfall > RAIN_SAFE_MIN:
-        return "SAFE"
-
-    if rainfall >= RAIN_MEDIUM_MIN:
+    if rainfall <= 3500.0:
         return "MEDIUM"
 
-    return "CRITICAL"
+    return "SAFE"
 
 
 # ============================================================
-# TEMPERATURE / FIRE CLASSIFICATION
+# TEMPERATURE
 # ============================================================
 
-def classify_temperature(temperature):
+def classify_temperature(value):
+    temperature = to_float(value)
+
     if temperature is None:
         return "UNKNOWN"
 
-    temperature = float(temperature)
-
-    # Arduino logic:
-    # < 25      -> SAFE
-    # <= 30     -> MEDIUM
-    # > 30      -> CRITICAL
-
-    if temperature < 25:
+    if temperature < 25.0:
         return "SAFE"
 
-    if temperature <= 30:
+    if temperature <= 30.0:
         return "MEDIUM"
 
     return "CRITICAL"
 
 
-def classify_smoke(smoke):
-    if smoke is None:
-        return "UNKNOWN"
+# ============================================================
+# MQ-2 GAS / SMOKE
+# ============================================================
 
-    smoke = float(smoke)
+def classify_gas(value):
+    gas = to_float(value)
 
-    # MQ-2 type logic:
-    # < 700      -> SAFE
-    # <= 1200    -> MEDIUM
-    # > 1200     -> CRITICAL
-
-    if smoke < 700:
-        return "SAFE"
-
-    if smoke <= 1200:
-        return "MEDIUM"
-
-    return "CRITICAL"
-
-
-def classify_gas(gas):
     if gas is None:
         return "UNKNOWN"
 
-    gas = float(gas)
-
-    if gas < 700:
+    if gas < 700.0:
         return "SAFE"
 
-    if gas <= 1200:
+    if gas <= 1200.0:
         return "MEDIUM"
 
     return "CRITICAL"
 
 
+def classify_smoke(value):
+    return classify_gas(value)
+
+
 # ============================================================
-# AIR QUALITY CLASSIFICATION
+# PM2.5
 # ============================================================
 
-def classify_pm25(pm25):
+def classify_pm25(value):
+    pm25 = to_float(value)
+
     if pm25 is None:
         return "UNKNOWN"
 
-    pm25 = float(pm25)
-
-    # General demo thresholds
-    if pm25 <= 60:
+    if pm25 <= 60.0:
         return "SAFE"
 
-    if pm25 <= 120:
+    if pm25 <= 120.0:
         return "MEDIUM"
 
     return "CRITICAL"
 
 
 # ============================================================
-# MAIN RISK CALCULATION
+# HUMIDITY
 # ============================================================
 
-def calculate_risk(payload):
-    hazard_type = (
-        payload.hazard_type.lower().strip()
-        if payload.hazard_type
-        else "environment"
-    )
+def humidity_status(value):
+    humidity = to_float(value)
 
+    if humidity is None:
+        return "UNKNOWN"
+
+    return "DISPLAY_ONLY"
+
+
+# ============================================================
+# MAIN RISK FUNCTION
+# ============================================================
+
+def evaluate_environmental_risk(
+    water_level=None,
+    rainfall=None,
+    temperature=None,
+    humidity=None,
+    smoke=None,
+    gas=None,
+    pm25=None,
+):
     water_level_status = classify_water_level(
-        payload.water_level
+        water_level
     )
 
     rain_status = classify_rain(
-        payload.rainfall
+        rainfall
     )
 
     temperature_status = classify_temperature(
-        payload.temperature
+        temperature
+    )
+
+    humidity_state = humidity_status(
+        humidity
     )
 
     smoke_status = classify_smoke(
-        payload.smoke
+        smoke
     )
 
     gas_status = classify_gas(
-        payload.gas
+        gas
     )
 
     pm25_status = classify_pm25(
-        payload.pm25
+        pm25
     )
 
-    # --------------------------------------------------------
-    # FLOOD
-    # --------------------------------------------------------
+    # ========================================================
+    # FLOOD RISK
+    # ========================================================
 
-    flood_levels = [
+    flood_risk = highest_risk(
         water_level_status,
-        rain_status
-    ]
-
-    flood_risk = combine_levels(
-        flood_levels
+        rain_status,
     )
 
-    # --------------------------------------------------------
-    # FOREST FIRE
-    # --------------------------------------------------------
+    # ========================================================
+    # FIRE RISK
+    # ========================================================
 
-    fire_levels = [
+    fire_risk = highest_risk(
         temperature_status,
         smoke_status,
-        gas_status
-    ]
-
-    fire_risk = combine_levels(
-        fire_levels
+        gas_status,
     )
 
-    # --------------------------------------------------------
-    # AIR QUALITY
-    # --------------------------------------------------------
+    # ========================================================
+    # AIR RISK
+    # ========================================================
 
-    air_levels = [
+    air_risk = highest_risk(
         gas_status,
         pm25_status,
-        temperature_status
-    ]
-
-    air_risk = combine_levels(
-        air_levels
     )
 
-    # --------------------------------------------------------
-    # FINAL HAZARD TYPE
-    # --------------------------------------------------------
+    # ========================================================
+    # OVERALL RISK
+    # ========================================================
 
-    if hazard_type == "flood":
-        selected_levels = flood_levels
-        final_risk = flood_risk
+    risk_level = highest_risk(
+        flood_risk,
+        fire_risk,
+        air_risk,
+    )
 
-    elif hazard_type in ["fire", "forest_fire", "wildfire"]:
-        selected_levels = fire_levels
-        final_risk = fire_risk
+    risk_score = RISK_SCORE.get(
+        risk_level,
+        0.0
+    )
 
-    elif hazard_type in ["air", "air_quality", "pollution"]:
-        selected_levels = air_levels
-        final_risk = air_risk
+    return {
+        "risk_score": risk_score,
+        "risk_level": risk_level,
 
-    else:
-        # environment / combined node
-        selected_levels = [
-            water_level_status,
-            rain_status,
+        "flood_risk": flood_risk,
+        "fire_risk": fire_risk,
+        "air_risk": air_risk,
+
+        "water_level_status": water_level_status,
+
+        "rain_status": rain_status,
+
+        "rain_condition":
+            get_rain_condition(
+                rainfall
+            ),
+
+        "temperature_status":
             temperature_status,
+
+        "humidity_status":
+            humidity_state,
+
+        "smoke_status":
             smoke_status,
+
+        "gas_status":
             gas_status,
-            pm25_status
-        ]
 
-        final_risk = combine_levels(
-            selected_levels
-        )
-
-    # --------------------------------------------------------
-    # SCORE CALCULATION
-    # --------------------------------------------------------
-
-    valid_levels = [
-        level for level in selected_levels
-        if level != "UNKNOWN"
-    ]
-
-    if not valid_levels:
-        risk_score = 0.0
-    else:
-        risk_score = round(
-            sum(level_score(level) for level in valid_levels)
-            / len(valid_levels),
-            1
-        )
-
-    return risk_score, final_risk
+        "pm25_status":
+            pm25_status,
+    }
