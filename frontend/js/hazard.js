@@ -2,62 +2,45 @@
   "use strict";
 
   // ============================================================
-  // ENVIRONMENTAL PREDICTION SYSTEM
-  // FLOOD / FIRE / AIR MONITORING PAGES
+  // ENVIRONMENTAL MONITORING
+  // FLOOD / FOREST FIRE / AIR QUALITY
   // ============================================================
 
-  const page =
-    document.body.dataset.hazard;
+  const page = document.body.dataset.hazard;
 
-  const NODE_ID =
-    "NODE-F01";
-
-  const OFFLINE_AFTER_MS =
-    12000;
+  const NODE_ID = "NODE-F01";
+  const OFFLINE_AFTER_MS = 12000;
 
   const REFRESH_MS =
-    window.APP_CONFIG?.DEMO_REFRESH_MS ||
-    3000;
-
+    window.APP_CONFIG?.DEMO_REFRESH_MS || 3000;
 
   // ============================================================
   // PAGE CONFIGURATION
   // ============================================================
 
   const configs = {
-
-    // ==========================================================
+    // ----------------------------------------------------------
     // FLOOD
-    // ==========================================================
-
+    // ----------------------------------------------------------
     flood: {
+      nodeId: NODE_ID,
 
-      nodeId:
-        NODE_ID,
+      zone: "Flood Monitoring Zone",
 
-      zone:
-        "Flood Monitoring Zone",
-
-      title:
-        "Flood Prediction & Monitoring",
+      title: "Flood Prediction & Monitoring",
 
       subtitle:
         "Rain and ultrasonic water-level monitoring",
 
-      riskKey:
-        "flood_risk",
+      riskKey: "flood_risk",
 
-      statusBannerId:
-        "floodStatusBanner",
+      statusBannerId: "floodStatusBanner",
 
-      summaryId:
-        "floodRiskSummary",
+      summaryId: "floodRiskSummary",
 
-      nodeStatusId:
-        "floodNodeStatus",
+      nodeStatusId: "floodNodeStatus",
 
       metrics: [
-
         {
           label: "Water Level",
           key: "water_level",
@@ -109,80 +92,57 @@
             );
           }
         }
-
       ],
 
       chartSeries(history) {
-
         return [
-
           {
-            name:
-              "Water Level",
+            name: "Water Level",
 
-            values:
-              history.map(
-                function (reading) {
-
-                  return numberOrNull(
-                    reading.water_level
-                  );
-                }
-              )
+            values: history.map(
+              (reading) =>
+                numberOrNull(
+                  reading.water_level
+                )
+            )
           },
 
           {
-            name:
-              "Rain ADC",
+            name: "Rain ADC",
 
-            values:
-              history.map(
-                function (reading) {
-
-                  return numberOrNull(
-                    reading.rainfall
-                  );
-                }
-              )
+            values: history.map(
+              (reading) =>
+                numberOrNull(
+                  reading.rainfall
+                )
+            )
           }
-
         ];
       }
     },
 
-
-    // ==========================================================
-    // FIRE
-    // ==========================================================
-
+    // ----------------------------------------------------------
+    // FOREST FIRE
+    // ----------------------------------------------------------
     fire: {
+      nodeId: NODE_ID,
 
-      nodeId:
-        NODE_ID,
+      zone: "Forest Monitoring Zone",
 
-      zone:
-        "Forest Monitoring Zone",
-
-      title:
-        "Forest Fire Monitoring",
+      title: "Forest Fire Monitoring",
 
       subtitle:
         "Temperature, humidity and MQ-2 smoke/gas monitoring",
 
-      riskKey:
-        "fire_risk",
+      riskKey: "fire_risk",
 
-      statusBannerId:
-        "fireStatusBanner",
+      statusBannerId: "fireStatusBanner",
 
-      summaryId:
-        "fireRiskSummary",
+      summaryId: "fireRiskSummary",
 
-      nodeStatusId:
-        "fireNodeStatus",
+      nodeStatusId: "fireNodeStatus",
 
       metrics: [
-
         {
           label: "Temperature",
           key: "temperature",
@@ -234,91 +194,67 @@
             );
           }
         }
-
       ],
 
       chartSeries(history) {
-
         return [
-
           {
-            name:
-              "Temperature",
+            name: "Temperature",
 
-            values:
-              history.map(
-                function (reading) {
-
-                  return numberOrNull(
-                    reading.temperature
-                  );
-                }
-              )
+            values: history.map(
+              (reading) =>
+                numberOrNull(
+                  reading.temperature
+                )
+            )
           },
 
           {
-            name:
-              "MQ-2 Gas",
+            name: "MQ-2 Gas",
 
-            values:
-              history.map(
-                function (reading) {
-
-                  return numberOrNull(
-                    reading.gas
-                  );
-                }
-              )
+            values: history.map(
+              (reading) =>
+                numberOrNull(
+                  reading.gas
+                )
+            )
           }
-
         ];
       }
     },
 
-
-    // ==========================================================
+    // ----------------------------------------------------------
     // AIR QUALITY
-    // ==========================================================
-
+    // ----------------------------------------------------------
     air: {
+      nodeId: NODE_ID,
 
-      nodeId:
-        NODE_ID,
+      zone: "Air Quality Monitoring Zone",
 
-      zone:
-        "Air Quality Monitoring Zone",
-
-      title:
-        "Air Pollution Monitoring",
+      title: "Air Pollution Monitoring",
 
       subtitle:
         "MQ-2 gas and environmental monitoring",
 
-      riskKey:
-        "air_risk",
+      riskKey: "air_risk",
 
-      statusBannerId:
-        "airStatusBanner",
+      statusBannerId: "airStatusBanner",
 
-      summaryId:
-        "airRiskSummary",
+      summaryId: "airRiskSummary",
 
-      nodeStatusId:
-        "airNodeStatus",
+      nodeStatusId: "airNodeStatus",
 
       metrics: [
-
         {
           label: "PM2.5",
           key: "pm25",
 
           format(value) {
-
             if (
               value === null ||
               value === undefined
             ) {
-              return "--";
+              return "Unavailable";
             }
 
             return formatNumber(
@@ -367,60 +303,43 @@
             );
           }
         }
-
       ],
 
       chartSeries(history) {
-
         return [
-
           {
-            name:
-              "MQ-2 Gas",
+            name: "MQ-2 Gas",
 
-            values:
-              history.map(
-                function (reading) {
-
-                  return numberOrNull(
-                    reading.gas
-                  );
-                }
-              )
+            values: history.map(
+              (reading) =>
+                numberOrNull(
+                  reading.gas
+                )
+            )
           },
 
           {
-            name:
-              "Temperature",
+            name: "Temperature",
 
-            values:
-              history.map(
-                function (reading) {
-
-                  return numberOrNull(
-                    reading.temperature
-                  );
-                }
-              )
+            values: history.map(
+              (reading) =>
+                numberOrNull(
+                  reading.temperature
+                )
+            )
           }
-
         ];
       }
     }
-
   };
 
-
   // ============================================================
-  // CURRENT PAGE CONFIG
+  // CURRENT PAGE
   // ============================================================
 
-  const config =
-    configs[page];
-
+  const config = configs[page];
 
   if (!config) {
-
     console.error(
       "Unknown hazard page:",
       page
@@ -429,46 +348,32 @@
     return;
   }
 
-
   // ============================================================
   // STATE
   // ============================================================
 
-  let latestReading =
-    null;
-
-  let historyData =
-    [];
-
-  let loading =
-    false;
-
+  let latestReading = null;
+  let historyData = [];
+  let loading = false;
 
   // ============================================================
-  // BASIC HELPERS
+  // DOM HELPERS
   // ============================================================
 
   function getElement(id) {
-
-    return document.getElementById(
-      id
-    );
+    return document.getElementById(id);
   }
-
 
   function setText(
     id,
     value
   ) {
-
     const element =
       getElement(id);
-
 
     if (!element) {
       return;
     }
-
 
     element.textContent =
       value === null ||
@@ -478,54 +383,38 @@
         : value;
   }
 
-
   // ============================================================
-  // NUMBERS
+  // NUMBER HELPERS
   // ============================================================
 
-  function numberOrNull(
-    value
-  ) {
-
+  function numberOrNull(value) {
     if (
       value === null ||
       value === undefined ||
       value === ""
     ) {
-
       return null;
     }
-
 
     const number =
       Number(value);
 
-
-    return Number.isFinite(
-      number
-    )
+    return Number.isFinite(number)
       ? number
       : null;
   }
-
 
   function formatNumber(
     value,
     decimals = 1,
     suffix = ""
   ) {
-
     const number =
-      numberOrNull(
-        value
-      );
-
+      numberOrNull(value);
 
     if (number === null) {
-
       return "--";
     }
-
 
     return (
       number.toFixed(decimals) +
@@ -533,84 +422,48 @@
     );
   }
 
-
   // ============================================================
-  // DATE PARSING
-  // ============================================================
-  //
-  // Older PostgreSQL records may contain a UTC timestamp
-  // without an explicit timezone.
-  //
-  // New records should contain +00:00.
-  //
+  // DATE HELPERS
   // ============================================================
 
-  function parseBackendDate(
-    value
-  ) {
-
+  function parseBackendDate(value) {
     if (!value) {
       return null;
     }
 
-
     let dateValue =
       String(value);
 
-
     const hasTimezone =
-      /Z$|[+-]\d{2}:\d{2}$/
-        .test(
-          dateValue
-        );
-
-
-    if (!hasTimezone) {
-
-      dateValue +=
-        "Z";
-    }
-
-
-    const date =
-      new Date(
+      /Z$|[+-]\d{2}:\d{2}$/.test(
         dateValue
       );
 
+    if (!hasTimezone) {
+      dateValue += "Z";
+    }
+
+    const date =
+      new Date(dateValue);
 
     if (
       Number.isNaN(
         date.getTime()
       )
     ) {
-
       return null;
     }
-
 
     return date;
   }
 
-
-  // ============================================================
-  // EXACT STORED TIMESTAMP DISPLAY
-  // ============================================================
-
-  function formatDateTime(
-    value
-  ) {
-
+  function formatDateTime(value) {
     const date =
-      parseBackendDate(
-        value
-      );
-
+      parseBackendDate(value);
 
     if (!date) {
-
       return "--";
     }
-
 
     return new Intl.DateTimeFormat(
       "en-IN",
@@ -637,32 +490,22 @@
           "2-digit",
 
         hour12:
-          true,
-
-        timeZoneName:
-          "short"
+          true
       }
-    ).format(
-      date
-    );
+    ).format(date);
   }
-
 
   function createChartLabel(
     reading
   ) {
-
     const date =
       parseBackendDate(
         reading?.created_at
       );
 
-
     if (!date) {
-
       return "";
     }
-
 
     return new Intl.DateTimeFormat(
       "en-IN",
@@ -682,11 +525,58 @@
         hour12:
           true
       }
-    ).format(
-      date
+    ).format(date);
+  }
+
+  // ============================================================
+  // ONLINE / OFFLINE
+  // ============================================================
+
+  function isReadingStale(
+    reading
+  ) {
+    if (
+      !reading ||
+      !reading.created_at
+    ) {
+      return true;
+    }
+
+    const readingDate =
+      parseBackendDate(
+        reading.created_at
+      );
+
+    if (!readingDate) {
+      return true;
+    }
+
+    const age =
+      Date.now() -
+      readingDate.getTime();
+
+    return (
+      age >
+      OFFLINE_AFTER_MS
     );
   }
 
+  function isHardwareOnline() {
+    if (!latestReading) {
+      return false;
+    }
+
+    if (
+      latestReading.online ===
+      false
+    ) {
+      return false;
+    }
+
+    return !isReadingStale(
+      latestReading
+    );
+  }
 
   // ============================================================
   // RISK NORMALIZATION
@@ -695,7 +585,6 @@
   function normalizeRisk(
     value
   ) {
-
     const risk =
       String(
         value || "UNKNOWN"
@@ -703,336 +592,289 @@
         .trim()
         .toUpperCase();
 
-
     if (
       risk === "SAFE" ||
       risk === "MEDIUM" ||
       risk === "CRITICAL" ||
       risk === "OFFLINE"
     ) {
-
       return risk;
     }
 
-
-    // Old data compatibility
-
+    // Old compatibility
     if (
       risk === "HIGH" ||
       risk === "DANGER"
     ) {
-
       return "CRITICAL";
     }
 
+    if (
+      risk === "LOW" ||
+      risk === "NORMAL"
+    ) {
+      return "SAFE";
+    }
 
     return "UNKNOWN";
   }
-
 
   function setStatus(
     id,
     value
   ) {
-
     const element =
       getElement(id);
 
-
     if (!element) {
-
       return;
     }
 
-
     const risk =
-      normalizeRisk(
-        value
-      );
-
+      normalizeRisk(value);
 
     element.textContent =
       risk;
-
 
     element.className =
       "status-pill status-" +
       risk.toLowerCase();
   }
 
-
-  // ============================================================
-  // STALE / OFFLINE CHECK
-  // ============================================================
-
-  function isReadingStale(
-    reading
+  function riskPriority(
+    value
   ) {
+    const risk =
+      normalizeRisk(value);
 
-    if (
-      !reading ||
-      !reading.created_at
-    ) {
+    const priority = {
+      UNKNOWN: -1,
+      SAFE: 0,
+      MEDIUM: 1,
+      CRITICAL: 2,
+      OFFLINE: -1
+    };
 
-      return true;
-    }
-
-
-    const readingDate =
-      parseBackendDate(
-        reading.created_at
-      );
-
-
-    if (!readingDate) {
-
-      return true;
-    }
-
-
-    const age =
-      Date.now() -
-      readingDate.getTime();
-
-
-    // Large future timestamp means clock/database issue.
-
-    if (
-      age < -60000
-    ) {
-
-      return true;
-    }
-
-
-    return (
-      age >
-      OFFLINE_AFTER_MS
-    );
+    return priority[risk] ?? -1;
   }
 
-
-  function isHardwareOnline() {
-
-    if (!latestReading) {
-
-      return false;
-    }
-
-
-    if (
-      typeof latestReading.online
-      === "boolean" &&
-      latestReading.online === false
-    ) {
-
-      return false;
-    }
-
-
-    return !isReadingStale(
-      latestReading
-    );
-  }
-
-
   // ============================================================
-  // CURRENT PAGE RISK
-  // ============================================================
-
-  function getCurrentHazardRisk() {
-
-    if (
-      !isHardwareOnline()
-    ) {
-
-      return "OFFLINE";
-    }
-
-
-    return normalizeRisk(
-      latestReading?.[
-        config.riskKey
-      ]
-    );
-  }
-
-
-  // ============================================================
-  // LOCAL FALLBACK CLASSIFIERS
+  // LOCAL SENSOR CLASSIFIERS
   // ============================================================
 
   function classifyWater(
     value
   ) {
-
     const water =
-      numberOrNull(
-        value
-      );
-
+      numberOrNull(value);
 
     if (water === null) {
-
       return "UNKNOWN";
     }
 
-
     if (water <= 90) {
-
       return "SAFE";
     }
 
-
     if (water <= 110) {
-
       return "MEDIUM";
     }
 
-
     return "CRITICAL";
   }
-
 
   function classifyRain(
     value
   ) {
-
     const rain =
-      numberOrNull(
-        value
-      );
-
+      numberOrNull(value);
 
     if (rain === null) {
-
       return "UNKNOWN";
     }
 
+    // Raw ADC:
+    // higher = drier
+    // lower = wetter
 
     if (rain > 2000) {
-
       return "SAFE";
     }
 
-
     if (rain > 1000) {
-
       return "MEDIUM";
     }
 
-
     return "CRITICAL";
   }
-
 
   function rainCondition(
     value
   ) {
-
     const rain =
-      numberOrNull(
-        value
-      );
-
+      numberOrNull(value);
 
     if (rain === null) {
-
       return "Unavailable";
     }
 
-
     if (rain > 3000) {
-
       return "NO RAIN";
     }
 
-
     if (rain > 2000) {
-
       return "LOW RAIN";
     }
 
-
     if (rain > 1000) {
-
       return "MEDIUM RAIN";
     }
-
 
     return "HIGH RAIN";
   }
 
-
   function classifyTemperature(
     value
   ) {
-
     const temperature =
-      numberOrNull(
-        value
-      );
-
+      numberOrNull(value);
 
     if (
       temperature === null
     ) {
-
       return "UNKNOWN";
     }
-
 
     if (
       temperature < 25
     ) {
-
       return "SAFE";
     }
-
 
     if (
       temperature <= 30
     ) {
-
       return "MEDIUM";
     }
 
-
     return "CRITICAL";
   }
-
 
   function classifyGas(
     value
   ) {
-
     const gas =
-      numberOrNull(
-        value
-      );
-
+      numberOrNull(value);
 
     if (gas === null) {
-
       return "UNKNOWN";
     }
 
-
     if (gas < 700) {
-
       return "SAFE";
     }
 
-
     if (gas <= 1200) {
-
       return "MEDIUM";
     }
-
 
     return "CRITICAL";
   }
 
+  // ============================================================
+  // PAGE-SPECIFIC FALLBACK RISK
+  // ============================================================
+
+  function calculateFloodRisk() {
+    const waterRisk =
+      classifyWater(
+        latestReading?.water_level
+      );
+
+    const rainRisk =
+      classifyRain(
+        latestReading?.rainfall
+      );
+
+    return (
+      riskPriority(waterRisk) >=
+      riskPriority(rainRisk)
+        ? waterRisk
+        : rainRisk
+    );
+  }
+
+  function calculateFireRisk() {
+    const tempRisk =
+      classifyTemperature(
+        latestReading?.temperature
+      );
+
+    const smokeRisk =
+      classifyGas(
+        latestReading?.smoke
+      );
+
+    const gasRisk =
+      classifyGas(
+        latestReading?.gas
+      );
+
+    const risks = [
+      tempRisk,
+      smokeRisk,
+      gasRisk
+    ];
+
+    return risks.reduce(
+      (highest, current) =>
+        riskPriority(current) >
+        riskPriority(highest)
+          ? current
+          : highest,
+      "SAFE"
+    );
+  }
+
+  function calculateAirRisk() {
+    return classifyGas(
+      latestReading?.gas
+    );
+  }
+
+  function getCurrentHazardRisk() {
+    if (!latestReading) {
+      return "UNKNOWN";
+    }
+
+    const backendRisk =
+      normalizeRisk(
+        latestReading[
+          config.riskKey
+        ]
+      );
+
+    if (
+      backendRisk !==
+      "UNKNOWN"
+    ) {
+      return backendRisk;
+    }
+
+    if (page === "flood") {
+      return calculateFloodRisk();
+    }
+
+    if (page === "fire") {
+      return calculateFireRisk();
+    }
+
+    if (page === "air") {
+      return calculateAirRisk();
+    }
+
+    return "UNKNOWN";
+  }
 
   // ============================================================
   // NORMALIZE HISTORY
@@ -1041,62 +883,50 @@
   function normalizeHistory(
     data
   ) {
-
     if (
       Array.isArray(data)
     ) {
-
       return data;
     }
-
 
     if (
       Array.isArray(
         data?.readings
       )
     ) {
-
       return data.readings;
     }
-
 
     if (
       Array.isArray(
         data?.data
       )
     ) {
-
       return data.data;
     }
 
-
     return [];
   }
-
 
   // ============================================================
   // HEADER
   // ============================================================
 
   function renderHeader() {
-
     setText(
       "pageTitle",
       config.title
     );
-
 
     setText(
       "pageSubtitle",
       config.subtitle
     );
 
-
     setText(
       "nodeId",
       config.nodeId
     );
-
 
     setText(
       "zone",
@@ -1104,12 +934,19 @@
     );
   }
 
-
   // ============================================================
-  // PAGE RISK
+  // MAIN RISK
   // ============================================================
 
   function renderRisk() {
+    if (!latestReading) {
+      setStatus(
+        "riskLevel",
+        "UNKNOWN"
+      );
+
+      return;
+    }
 
     setStatus(
       "riskLevel",
@@ -1117,94 +954,64 @@
     );
   }
 
-
   // ============================================================
   // METRICS
   // ============================================================
 
   function renderEmptyMetrics() {
-
     const container =
-      getElement(
-        "metrics"
-      );
-
+      getElement("metrics");
 
     if (!container) {
-
       return;
     }
-
 
     container.innerHTML =
       config.metrics
         .map(
-          function (
-            metric
-          ) {
+          (metric) => `
+            <div class="metric">
+              <span>
+                ${metric.label}
+              </span>
 
-            return `
-              <div class="metric">
-
-                <span>
-                  ${metric.label}
-                </span>
-
-                <b>
-                  --
-                </b>
-
-              </div>
-            `;
-          }
+              <b>
+                --
+              </b>
+            </div>
+          `
         )
         .join("");
   }
 
-
   function renderMetrics() {
-
     const container =
-      getElement(
-        "metrics"
-      );
-
+      getElement("metrics");
 
     if (!container) {
-
       return;
     }
 
+    // IMPORTANT:
+    // Show latest database values even if the ESP32
+    // is currently offline.
 
-    // Do not display stale database readings
-    // as though they are live measurements.
-
-    if (
-      !isHardwareOnline()
-    ) {
-
+    if (!latestReading) {
       renderEmptyMetrics();
-
       return;
     }
-
 
     container.innerHTML =
       config.metrics
         .map(
-          function (
-            metric
-          ) {
-
+          (metric) => {
             const value =
               latestReading[
                 metric.key
               ];
 
-
             return `
               <div class="metric">
-
                 <span>
                   ${metric.label}
                 </span>
@@ -1212,7 +1019,6 @@
                 <b>
                   ${metric.format(value)}
                 </b>
-
               </div>
             `;
           }
@@ -1220,47 +1026,33 @@
         .join("");
   }
 
-
   // ============================================================
   // CHART
   // ============================================================
-  //
-  // Historical data stays visible even if the node is currently
-  // offline. It is history, not a claim that the node is live.
-  //
-  // ============================================================
 
   function renderChart() {
-
     const canvas =
       getElement(
         "trendChart"
       );
 
-
     if (
       !canvas ||
       !window.SimpleCharts
     ) {
-
       return;
     }
 
-
     if (
-      historyData.length === 0
+      historyData.length ===
+      0
     ) {
-
       window.SimpleCharts.drawLine(
-
         canvas,
 
         {
-          name:
-            "No Data",
-
-          values:
-            []
+          name: "No Data",
+          values: []
         },
 
         null,
@@ -1268,45 +1060,34 @@
         []
       );
 
-
       return;
     }
-
 
     const series =
       config.chartSeries(
         historyData
       );
 
-
     const labels =
       historyData.map(
         createChartLabel
       );
 
-
     window.SimpleCharts.drawLine(
-
       canvas,
-
       series[0],
-
       series[1] || null,
-
       labels
     );
   }
-
 
   // ============================================================
   // CONNECTION STATUS
   // ============================================================
 
   function renderConnectionStatus() {
-
     const online =
       isHardwareOnline();
-
 
     setText(
       "updatedAt",
@@ -1318,11 +1099,9 @@
         : "--"
     );
 
-
     if (
       config.nodeStatusId
     ) {
-
       setText(
         config.nodeStatusId,
 
@@ -1333,103 +1112,85 @@
     }
   }
 
-
   // ============================================================
   // STATUS BANNER
   // ============================================================
 
   function renderStatusBanner() {
+    if (!latestReading) {
+      setText(
+        config.summaryId,
+        "No sensor data is available."
+      );
+
+      return;
+    }
 
     const risk =
       getCurrentHazardRisk();
-
 
     const banner =
       getElement(
         config.statusBannerId
       );
 
-
     if (banner) {
-
       banner.dataset.risk =
         risk.toLowerCase();
     }
 
-
     let message =
       "Monitoring data available.";
-
 
     if (
       risk === "SAFE"
     ) {
-
       message =
         `${config.title}: monitored values are within the configured safe range.`;
     }
 
-
     if (
       risk === "MEDIUM"
     ) {
-
       message =
         `${config.title}: one or more monitored values are in the medium-risk range.`;
     }
 
-
     if (
       risk === "CRITICAL"
     ) {
-
       message =
         `${config.title}: critical conditions detected. Review the current readings and Alert Center.`;
     }
 
-
     if (
-      risk === "OFFLINE"
+      !isHardwareOnline()
     ) {
-
-      message =
-        `${NODE_ID} is offline or no fresh packet has been received within 12 seconds.`;
+      message +=
+        ` ${NODE_ID} is currently offline. Showing the latest stored reading.`;
     }
 
-
-    if (
-      config.summaryId
-    ) {
-
-      setText(
-        config.summaryId,
-        message
-      );
-    }
+    setText(
+      config.summaryId,
+      message
+    );
   }
-
 
   // ============================================================
   // FLOOD DETAILS
   // ============================================================
 
   function renderFloodDetails() {
-
     if (
       page !== "flood"
     ) {
-
       return;
     }
 
-
-    if (
-      !isHardwareOnline()
-    ) {
-
+    if (!latestReading) {
       setStatus(
         "waterThresholdStatus",
-        "OFFLINE"
+        "UNKNOWN"
       );
 
       setText(
@@ -1444,103 +1205,87 @@
 
       setStatus(
         "finalFloodRisk",
-        "OFFLINE"
+        "UNKNOWN"
       );
 
       return;
     }
 
-
     const waterStatus =
       normalizeRisk(
         latestReading
-          ?.water_level_status ||
-        classifyWater(
-          latestReading
-            ?.water_level
-        )
-      );
-
+          ?.water_level_status
+      ) !== "UNKNOWN"
+        ? normalizeRisk(
+            latestReading
+              ?.water_level_status
+          )
+        : classifyWater(
+            latestReading
+              ?.water_level
+          );
 
     const rainStatus =
       normalizeRisk(
         latestReading
-          ?.rain_status ||
-        classifyRain(
-          latestReading
-            ?.rainfall
-        )
-      );
-
+          ?.rain_status
+      ) !== "UNKNOWN"
+        ? normalizeRisk(
+            latestReading
+              ?.rain_status
+          )
+        : classifyRain(
+            latestReading
+              ?.rainfall
+          );
 
     setStatus(
       "waterThresholdStatus",
       waterStatus
     );
 
-
     setText(
       "rainConditionStatus",
 
       latestReading
         ?.rain_condition ||
-      rainCondition(
-        latestReading
-          ?.rainfall
-      )
+        rainCondition(
+          latestReading
+            ?.rainfall
+        )
     );
 
-
-    // The transmitter computes an ML flood result,
-    // but the receiver/backend currently do not transmit/store
-    // that ML field. Do not invent one.
+    // ML value is currently not stored
+    // in the backend reading.
 
     setText(
       "mlFloodStatus",
       "Unavailable"
     );
 
-
     setStatus(
       "finalFloodRisk",
-
       latestReading
         ?.flood_risk ||
-      (
-        riskPriority(
-          waterStatus
-        ) >=
-        riskPriority(
-          rainStatus
-        )
-          ? waterStatus
-          : rainStatus
-      )
+        calculateFloodRisk()
     );
   }
 
-
   // ============================================================
-  // FIRE DETAILS
+  // FOREST FIRE DETAILS
   // ============================================================
 
   function renderFireDetails() {
-
     if (
       page !== "fire"
     ) {
-
       return;
     }
 
-
-    if (
-      !isHardwareOnline()
-    ) {
-
+    if (!latestReading) {
       setStatus(
         "fireTemperatureStatus",
-        "OFFLINE"
+        "UNKNOWN"
       );
 
       setText(
@@ -1550,35 +1295,31 @@
 
       setStatus(
         "fireSmokeStatus",
-        "OFFLINE"
+        "UNKNOWN"
       );
 
       setStatus(
         "fireGasStatus",
-        "OFFLINE"
+        "UNKNOWN"
       );
 
       return;
     }
-
 
     setStatus(
       "fireTemperatureStatus",
 
       latestReading
         ?.temperature_status ||
-      classifyTemperature(
-        latestReading
-          ?.temperature
-      )
+        classifyTemperature(
+          latestReading
+            ?.temperature
+        )
     );
-
-
-    // Humidity is display-only in the current risk model.
-    // It intentionally has no SAFE/MEDIUM/CRITICAL threshold.
 
     setText(
       "fireHumidityStatus",
+
       numberOrNull(
         latestReading
           ?.humidity
@@ -1587,50 +1328,41 @@
         : "DISPLAY ONLY"
     );
 
-
     setStatus(
       "fireSmokeStatus",
 
       latestReading
         ?.smoke_status ||
-      classifyGas(
-        latestReading
-          ?.smoke
-      )
+        classifyGas(
+          latestReading
+            ?.smoke
+        )
     );
-
 
     setStatus(
       "fireGasStatus",
 
       latestReading
         ?.gas_status ||
-      classifyGas(
-        latestReading
-          ?.gas
-      )
+        classifyGas(
+          latestReading
+            ?.gas
+        )
     );
   }
 
-
   // ============================================================
-  // AIR DETAILS
+  // AIR QUALITY DETAILS
   // ============================================================
 
   function renderAirDetails() {
-
     if (
       page !== "air"
     ) {
-
       return;
     }
 
-
-    if (
-      !isHardwareOnline()
-    ) {
-
+    if (!latestReading) {
       setText(
         "airPm25Status",
         "Unavailable"
@@ -1638,7 +1370,7 @@
 
       setStatus(
         "airGasStatus",
-        "OFFLINE"
+        "UNKNOWN"
       );
 
       setText(
@@ -1654,9 +1386,8 @@
       return;
     }
 
-
-    // No PM2.5 sensor is currently connected.
-    // Null remains null. No synthetic AQI classification.
+    // No PM2.5 sensor is connected.
+    // Do not create fake PM2.5 values.
 
     setText(
       "airPm25Status",
@@ -1667,25 +1398,19 @@
         ?.pm25 === undefined
 
         ? "Unavailable"
-
         : "Measured"
     );
-
 
     setStatus(
       "airGasStatus",
 
       latestReading
         ?.gas_status ||
-      classifyGas(
-        latestReading
-          ?.gas
-      )
+        classifyGas(
+          latestReading
+            ?.gas
+        )
     );
-
-
-    // Temperature and humidity are displayed on the air page
-    // but do not determine the current air-quality risk.
 
     setText(
       "airTemperatureStatus",
@@ -1697,7 +1422,6 @@
         ? "Unavailable"
         : "DISPLAY ONLY"
     );
-
 
     setText(
       "airHumidityStatus",
@@ -1711,94 +1435,44 @@
     );
   }
 
-
-  // ============================================================
-  // RISK PRIORITY
-  // ============================================================
-
-  function riskPriority(
-    value
-  ) {
-
-    const risk =
-      normalizeRisk(
-        value
-      );
-
-
-    const priority = {
-
-      UNKNOWN:
-        -1,
-
-      SAFE:
-        0,
-
-      MEDIUM:
-        1,
-
-      CRITICAL:
-        2,
-
-      OFFLINE:
-        -1
-    };
-
-
-    return priority[risk] ?? -1;
-  }
-
-
   // ============================================================
   // CRITICAL POPUP
   // ============================================================
-  //
-  // Shows once when this page transitions into CRITICAL.
-  //
-  // It does NOT reopen every 3 seconds while the condition
-  // remains critical.
-  //
-  // ============================================================
 
   function maybeShowCriticalPopup() {
+    if (!latestReading) {
+      return;
+    }
 
     if (
       !isHardwareOnline()
     ) {
-
       return;
     }
-
 
     const currentRisk =
       getCurrentHazardRisk();
 
-
     const storageKey =
       `hazard-state-${page}`;
-
 
     const previousRisk =
       sessionStorage.getItem(
         storageKey
       );
 
-
     if (
       currentRisk ===
         "CRITICAL" &&
-
       previousRisk !==
         "CRITICAL"
     ) {
-
       const title =
         page === "flood"
           ? "Critical Flood Condition"
           : page === "fire"
             ? "Critical Fire Condition"
             : "Critical Air Quality Condition";
-
 
       window.alert(
         `${title}\n\n` +
@@ -1809,20 +1483,17 @@
       );
     }
 
-
     sessionStorage.setItem(
       storageKey,
       currentRisk
     );
   }
 
-
   // ============================================================
   // COMPLETE RENDER
   // ============================================================
 
   function render() {
-
     renderHeader();
 
     renderRisk();
@@ -1844,218 +1515,156 @@
     maybeShowCriticalPopup();
   }
 
-
   // ============================================================
   // LOAD LATEST READING
   // ============================================================
 
   async function loadLatestReading() {
-
     latestReading =
       await window.getLatestReading(
         config.nodeId
       );
 
-
-    if (
-      isReadingStale(
-        latestReading
-      )
-    ) {
-
-      console.log(
-        "Sensor node offline. Last stored reading:",
-        latestReading
-      );
-    }
-    else {
-
-      console.log(
-        `${page.toUpperCase()} LIVE DATA:`,
-        latestReading
-      );
-    }
+    console.log(
+      `${page.toUpperCase()} LATEST READING:`,
+      latestReading
+    );
   }
-
 
   // ============================================================
   // LOAD HISTORY
   // ============================================================
 
   async function loadHistory() {
-
     const response =
       await window.getNodeHistory(
         config.nodeId,
         20
       );
 
-
     const readings =
       normalizeHistory(
         response
       );
 
-
     historyData =
       [...readings].sort(
-        function (
-          a,
-          b
-        ) {
-
+        (a, b) => {
           const dateA =
             parseBackendDate(
               a.created_at
             );
-
 
           const dateB =
             parseBackendDate(
               b.created_at
             );
 
+          const timeA =
+            dateA
+              ? dateA.getTime()
+              : 0;
+
+          const timeB =
+            dateB
+              ? dateB.getTime()
+              : 0;
 
           return (
-            (
-              dateA
-                ? dateA.getTime()
-                : 0
-            )
-            -
-            (
-              dateB
-                ? dateB.getTime()
-                : 0
-            )
+            timeA -
+            timeB
           );
         }
       );
   }
-
 
   // ============================================================
   // LOAD LIVE DATA
   // ============================================================
 
   async function loadLiveData() {
-
     if (loading) {
-
       return;
     }
 
-
-    loading =
-      true;
-
+    loading = true;
 
     try {
-
       const results =
         await Promise.allSettled([
-
           loadLatestReading(),
-
           loadHistory()
-
         ]);
-
 
       const latestResult =
         results[0];
 
+      const historyResult =
+        results[1];
 
       if (
         latestResult.status ===
         "rejected"
       ) {
-
-        latestReading =
-          null;
-
-
         console.error(
-          `Latest ${page} reading failed:`,
+          "Latest reading request failed:",
           latestResult.reason
         );
       }
-
-
-      const historyResult =
-        results[1];
-
 
       if (
         historyResult.status ===
         "rejected"
       ) {
-
         console.error(
-          `${page} history failed:`,
+          "History request failed:",
           historyResult.reason
         );
       }
 
-
       render();
-    }
-    finally {
-
-      loading =
-        false;
+    } finally {
+      loading = false;
     }
   }
-
 
   // ============================================================
   // REFRESH BUTTON
   // ============================================================
 
   function setupRefreshButton() {
-
     const button =
       getElement(
         "simulateBtn"
       );
 
-
     if (!button) {
-
       return;
     }
-
 
     button.textContent =
       "Refresh Live Data";
 
-
     button.addEventListener(
       "click",
-      function () {
-
+      () => {
         loadLiveData();
       }
     );
   }
 
-
   // ============================================================
   // WINDOW RESIZE
   // ============================================================
 
-  let resizeTimer =
-    null;
-
+  let resizeTimer = null;
 
   window.addEventListener(
     "resize",
-    function () {
-
+    () => {
       clearTimeout(
         resizeTimer
       );
-
 
       resizeTimer =
         setTimeout(
@@ -2065,19 +1674,16 @@
     }
   );
 
-
   // ============================================================
   // START
   // ============================================================
 
   document.addEventListener(
     "DOMContentLoaded",
-    function () {
-
+    () => {
       console.log(
         `${page} monitoring page loaded`
       );
-
 
       renderHeader();
 
@@ -2087,14 +1693,10 @@
 
       loadLiveData();
 
-
       setInterval(
-
         loadLiveData,
-
         REFRESH_MS
       );
     }
   );
-
 })();
