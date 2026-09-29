@@ -7,3 +7,4 @@ pydantic
 email-validator
 pwdlib[argon2]
 PyJWT
+psycopg[binary]
