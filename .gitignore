@@ -1,0 +1,32 @@
+# Environment secrets
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Python cache
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Arduino build files
+build/
+*.bin
+*.elf
+*.hex
