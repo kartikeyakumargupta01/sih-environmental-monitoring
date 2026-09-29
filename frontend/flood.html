@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Flood monitoring dashboard for the Environmental Prediction System"
+  >
+
+  <title>
+    Flood Monitoring | Environmental Prediction System
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="css/styles.css"
+  >
+
+</head>
+
+
+<body data-page="flood">
+
+
+  <!-- =========================================================
+       HEADER
+  ========================================================== -->
+
+  <header class="site-header">
+
+
+    <!-- BRAND -->
+
+    <div class="brand">
+
+      <div
+        class="brand-mark"
+        aria-hidden="true"
+      >
+        EPS
+      </div>
+
+
+      <div class="brand-copy">
+
+        <h1>
+          Environmental Prediction System
+        </h1>
+
+        <p>
+          Government of India
+          ·
+          Integrated Environmental Monitoring Network
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <nav
+      class="nav"
+      aria-label="Main navigation"
+    >
+
+      <a
+        href="home.html"
+        data-page-link="home"
+      >
+        Overview
+      </a>
+
+      <a
+        href="flood.html"
+        data-page-link="flood"
+        class="active"
+      >
+        Flood
+      </a>
+
+      <a
+        href="fire.html"
+        data-page-link="fire"
+      >
+        Fire
+      </a>
+
+      <a
+        href="air.html"
+        data-page-link="air"
+      >
+        Air Quality
+      </a>
+
+      <a
+        href="contacts.html"
+        data-page-link="contacts"
+      >
+        Contacts
+      </a>
+
+    </nav>
+<!-- USER -->
+
+      <div class="user-area">
+
+        <div class="user-avatar">
+          U
+        </div>
+
+        <div class="user-details">
+
+          <strong
+            id="currentUserName"
+            data-user-name
+          >
+            User
+          </strong>
+
+          <span
+            id="currentUserEmail"
+            data-user-email
+          >
+            Authorized User
+          </span>
+
+        </div>
+
+        <button
+          type="button"
+          class="btn ghost"
+          id="logoutButton"
+          data-logout
+        >
+          Logout
+        </button>
+
+      </div>
+  </header>
+
+
+  <!-- =========================================================
+       MAIN CONTENT
+  ========================================================== -->
+
+  <main class="container">
+
+
+    <!-- =======================================================
+         PAGE INTRO
+    ======================================================== -->
+
+    <section class="dashboard-intro hazard-page-intro">
+
+      <div>
+
+        <span class="badge">
+          Flood Intelligence
+        </span>
+
+        <h2 id="pageTitle">
+          Flood Monitoring
+        </h2>
+
+        <p id="pageSubtitle">
+          Real-time water-level, rainfall and flood-risk monitoring
+        </p>
+
+      </div>
+
+
+      <div class="dashboard-intro-meta">
+
+        <div class="project-meta-item">
+
+          <span>
+            Node
+          </span>
+
+          <strong id="nodeId">
+            NODE-F01
+          </strong>
+
+        </div>
+
+
+        <div class="project-meta-item">
+
+          <span>
+            Monitoring Zone
+          </span>
+
+          <strong id="zone">
+            Flood Monitoring Zone
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         FLOOD RISK STATUS
+    ======================================================== -->
+
+    <section
+      class="system-status-banner hazard-status-banner"
+      id="floodStatusBanner"
+    >
+
+      <div class="status-banner-main">
+
+        <div
+          class="status-banner-icon"
+          aria-hidden="true"
+        >
+          ≋
+        </div>
+
+
+        <div>
+
+          <span class="eyebrow">
+            Current Flood Risk
+          </span>
+
+          <h2>
+            <span
+              class="status-pill"
+              id="riskLevel"
+            >
+              CHECKING
+            </span>
+          </h2>
+
+          <p id="floodRiskSummary">
+            Evaluating the latest water-level and rainfall data.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="status-banner-meta">
+
+        <div>
+
+          <span>
+            Node Status
+          </span>
+
+          <strong id="floodNodeStatus">
+            CHECKING
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Last Reading
+          </span>
+
+          <strong id="updatedAt">
+            --
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Data Source
+          </span>
+
+          <strong>
+            Live Sensor Network
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         PRIMARY METRICS
+    ======================================================== -->
+
+    <section aria-labelledby="floodMetricsHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="floodMetricsHeading">
+            Live Flood Metrics
+          </h2>
+
+          <p>
+            Current sensor values received from NODE-F01
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="metric-grid flood-metric-grid"
+        id="metrics"
+      >
+
+        <div class="metric">
+
+          <span>
+            Water Level
+          </span>
+
+          <b>
+            --
+          </b>
+
+        </div>
+
+
+        <div class="metric">
+
+          <span>
+            Rain Sensor
+          </span>
+
+          <b>
+            --
+          </b>
+
+        </div>
+
+
+        <div class="metric">
+
+          <span>
+            Temperature
+          </span>
+
+          <b>
+            --
+          </b>
+
+        </div>
+
+
+        <div class="metric">
+
+          <span>
+            Humidity
+          </span>
+
+          <b>
+            --
+          </b>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         TREND CHART + RISK GUIDE
+    ======================================================== -->
+
+    <section class="grid-2 dashboard-main-grid">
+
+
+      <!-- CHART -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Sensor History
+            </span>
+
+            <h2>
+              Flood Trend
+            </h2>
+
+            <p>
+              Recent water-level and rainfall readings
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="chart-shell">
+
+          <canvas
+            id="trendChart"
+            aria-label="Flood sensor trend chart"
+          ></canvas>
+
+        </div>
+
+
+        <div class="panel-footer">
+
+          <span>
+            NODE-F01
+          </span>
+
+          <span>
+            Latest 7 readings
+          </span>
+
+        </div>
+
+      </article>
+
+
+      <!-- THRESHOLD GUIDE -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Risk Interpretation
+            </span>
+
+            <h2>
+              Flood Threshold Guide
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="threshold-list">
+
+
+          <div class="threshold-row threshold-safe">
+
+            <div>
+
+              <strong>
+                SAFE
+              </strong>
+
+              <span>
+                Normal water level
+              </span>
+
+            </div>
+
+            <b>
+              ≤ 90 cm
+            </b>
+
+          </div>
+
+
+          <div class="threshold-row threshold-medium">
+
+            <div>
+
+              <strong>
+                MEDIUM
+              </strong>
+
+              <span>
+                Elevated water level
+              </span>
+
+            </div>
+
+            <b>
+              &gt; 90 to 110 cm
+            </b>
+
+          </div>
+
+
+          <div class="threshold-row threshold-critical">
+
+            <div>
+
+              <strong>
+                CRITICAL
+              </strong>
+
+              <span>
+                Flood danger threshold exceeded
+              </span>
+
+            </div>
+
+            <b>
+              &gt; 110 cm
+            </b>
+
+          </div>
+
+
+        </div>
+
+
+        <div class="risk-note">
+
+          <strong>
+            Important
+          </strong>
+
+          <p>
+            Water level is displayed in centimetres throughout
+            the sensor node, backend, database and dashboard.
+          </p>
+
+        </div>
+
+      </article>
+
+
+    </section>
+
+
+    <!-- =======================================================
+         RAINFALL INTERPRETATION
+    ======================================================== -->
+
+    <section aria-labelledby="rainfallHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="rainfallHeading">
+            Rain Sensor Interpretation
+          </h2>
+
+          <p>
+            Raw ADC-based rainfall condition
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="grid-3 rainfall-guide-grid">
+
+
+        <article class="card">
+
+          <span class="badge">
+            No Rain
+          </span>
+
+          <h3>
+            Dry Condition
+          </h3>
+
+          <p>
+            ADC value above 3000.
+          </p>
+
+        </article>
+
+
+        <article class="card">
+
+          <span class="badge">
+            Low Rain
+          </span>
+
+          <h3>
+            Light Moisture
+          </h3>
+
+          <p>
+            ADC value from 2001 to 3000.
+          </p>
+
+        </article>
+
+
+        <article class="card">
+
+          <span class="badge">
+            Medium Rain
+          </span>
+
+          <h3>
+            Moderate Rainfall
+          </h3>
+
+          <p>
+            ADC value from 1001 to 2000.
+          </p>
+
+        </article>
+
+
+        <article class="card">
+
+          <span class="badge">
+            High Rain
+          </span>
+
+          <h3>
+            Heavy Rainfall
+          </h3>
+
+          <p>
+            ADC value of 1000 or below.
+          </p>
+
+        </article>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         FLOOD INTELLIGENCE
+    ======================================================== -->
+
+    <section class="grid-2 dashboard-main-grid">
+
+
+      <!-- FLOOD INTELLIGENCE -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Flood Intelligence
+            </span>
+
+            <h2>
+              Risk Analysis
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="risk-explanation-grid">
+
+
+          <div class="risk-factor">
+
+            <span>
+              Water Threshold
+            </span>
+
+            <strong id="waterThresholdStatus">
+              --
+            </strong>
+
+            <small>
+              Physical flood threshold evaluation
+            </small>
+
+          </div>
+
+
+          <div class="risk-factor">
+
+            <span>
+              Rain Condition
+            </span>
+
+            <strong id="rainConditionStatus">
+              --
+            </strong>
+
+            <small>
+              Rain sensor ADC interpretation
+            </small>
+
+          </div>
+
+
+          <div class="risk-factor">
+
+            <span>
+              AI Flood Prediction
+            </span>
+
+            <strong id="mlFloodStatus">
+              --
+            </strong>
+
+            <small>
+              Edge flood prediction result
+            </small>
+
+          </div>
+
+
+          <div class="risk-factor">
+
+            <span>
+              Final Risk
+            </span>
+
+            <strong id="finalFloodRisk">
+              --
+            </strong>
+
+            <small>
+              Final system flood classification
+            </small>
+
+          </div>
+
+
+        </div>
+
+      </article>
+
+
+      <!-- NODE STATUS -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Field Node
+            </span>
+
+            <h2>
+              NODE-F01 Health
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="system-health-list">
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                Water Sensor
+              </strong>
+
+              <span>
+                HC-SR04 ultrasonic level sensing
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="floodWaterSensorHealth"
+            >
+              --
+            </span>
+
+          </div>
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                Rain Sensor
+              </strong>
+
+              <span>
+                Analog rainfall detection
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="floodRainSensorHealth"
+            >
+              --
+            </span>
+
+          </div>
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                DHT11
+              </strong>
+
+              <span>
+                Temperature and humidity
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="floodDhtHealth"
+            >
+              --
+            </span>
+
+          </div>
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                LoRa Link
+              </strong>
+
+              <span>
+                433 MHz communication
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="floodLoraHealth"
+            >
+              --
+            </span>
+
+          </div>
+
+
+        </div>
+
+      </article>
+
+
+    </section>
+
+
+    <!-- =======================================================
+         NODE DETAILS
+    ======================================================== -->
+
+    <section aria-labelledby="nodeDetailsHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="nodeDetailsHeading">
+            Flood Monitoring Node
+          </h2>
+
+          <p>
+            Hardware and communication configuration
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <article class="panel node-detail-panel">
+
+        <div class="node-information-grid">
+
+
+          <div class="node-info-item">
+
+            <span>
+              Node ID
+            </span>
+
+            <strong>
+              NODE-F01
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Water Sensor
+            </span>
+
+            <strong>
+              HC-SR04
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Rain Sensor
+            </span>
+
+            <strong>
+              Analog ADC
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Environment Sensor
+            </span>
+
+            <strong>
+              DHT11
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Communication
+            </span>
+
+            <strong>
+              LoRa 433 MHz
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Controller
+            </span>
+
+            <strong>
+              ESP32
+            </strong>
+
+          </div>
+
+
+        </div>
+
+      </article>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
+
+  <footer>
+
+    <div class="footer-inner">
+
+      <div>
+
+        <strong>
+          Environmental Prediction System
+        </strong>
+
+        <div>
+          Flood Monitoring & Early Warning
+        </div>
+
+      </div>
+
+
+      <div>
+
+        Government of India
+        ·
+        <span data-project-code>
+          SIH 26078
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
+
+  <script src="js/config.js"></script>
+
+  <script src="js/common.js"></script>
+
+  <script src="js/api.js"></script>
+
+  <script src="js/charts.js"></script>
+
+  <script src="js/hazard.js"></script>
+
+
+</body>
+
+</html>

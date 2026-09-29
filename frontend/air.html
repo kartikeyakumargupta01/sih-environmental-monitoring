@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Air quality monitoring dashboard for the Environmental Prediction System"
+  >
+
+  <title>
+    Air Quality Monitoring | Environmental Prediction System
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="css/styles.css"
+  >
+
+</head>
+
+
+<body data-page="air">
+
+
+  <!-- =========================================================
+       HEADER
+  ========================================================== -->
+
+  <header class="site-header">
+
+
+    <!-- BRAND -->
+
+    <div class="brand">
+
+      <div
+        class="brand-mark"
+        aria-hidden="true"
+      >
+        EPS
+      </div>
+
+
+      <div class="brand-copy">
+
+        <h1>
+          Environmental Prediction System
+        </h1>
+
+        <p>
+          Government of India
+          ·
+          Integrated Environmental Monitoring Network
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <nav
+      class="nav"
+      aria-label="Main navigation"
+    >
+
+      <a
+        href="home.html"
+        data-page-link="home"
+      >
+        Overview
+      </a>
+
+      <a
+        href="flood.html"
+        data-page-link="flood"
+      >
+        Flood
+      </a>
+
+      <a
+        href="fire.html"
+        data-page-link="fire"
+      >
+        Fire
+      </a>
+
+      <a
+        href="air.html"
+        data-page-link="air"
+        class="active"
+      >
+        Air Quality
+      </a>
+
+      <a
+        href="contacts.html"
+        data-page-link="contacts"
+      >
+        Contacts
+      </a>
+
+    </nav>
+<!-- USER -->
+
+      <div class="user-area">
+
+        <div class="user-avatar">
+          U
+        </div>
+
+        <div class="user-details">
+
+          <strong
+            id="currentUserName"
+            data-user-name
+          >
+            User
+          </strong>
+
+          <span
+            id="currentUserEmail"
+            data-user-email
+          >
+            Authorized User
+          </span>
+
+        </div>
+
+        <button
+          type="button"
+          class="btn ghost"
+          id="logoutButton"
+          data-logout
+        >
+          Logout
+        </button>
+
+      </div>
+
+  </header>
+
+
+  <!-- =========================================================
+       MAIN
+  ========================================================== -->
+
+  <main class="container">
+
+
+    <!-- =======================================================
+         PAGE INTRO
+    ======================================================== -->
+
+    <section class="dashboard-intro hazard-page-intro">
+
+      <div>
+
+        <span class="badge">
+          Air Quality Intelligence
+        </span>
+
+        <h2 id="pageTitle">
+          Air Pollution Monitoring
+        </h2>
+
+        <p id="pageSubtitle">
+          Real-time PM2.5, gas and environmental-condition monitoring
+        </p>
+
+      </div>
+
+
+      <div class="dashboard-intro-meta">
+
+        <div class="project-meta-item">
+
+          <span>
+            Node
+          </span>
+
+          <strong id="nodeId">
+            NODE-F01
+          </strong>
+
+        </div>
+
+
+        <div class="project-meta-item">
+
+          <span>
+            Monitoring Zone
+          </span>
+
+          <strong id="zone">
+            Air Quality Monitoring Zone
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         AIR QUALITY STATUS
+    ======================================================== -->
+
+    <section
+      class="system-status-banner hazard-status-banner"
+      id="airStatusBanner"
+    >
+
+      <div class="status-banner-main">
+
+        <div
+          class="status-banner-icon"
+          aria-hidden="true"
+        >
+          ≋
+        </div>
+
+
+        <div>
+
+          <span class="eyebrow">
+            Current Air Quality Risk
+          </span>
+
+          <h2>
+
+            <span
+              class="status-pill"
+              id="riskLevel"
+            >
+              CHECKING
+            </span>
+
+          </h2>
+
+          <p id="airRiskSummary">
+            Evaluating air-quality and gas conditions from the latest sensor data.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="status-banner-meta">
+
+        <div>
+
+          <span>
+            Node Status
+          </span>
+
+          <strong id="airNodeStatus">
+            CHECKING
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Last Reading
+          </span>
+
+          <strong id="updatedAt">
+            --
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Data Source
+          </span>
+
+          <strong>
+            Live Sensor Network
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         LIVE AIR METRICS
+    ======================================================== -->
+
+    <section aria-labelledby="airMetricsHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="airMetricsHeading">
+            Live Air Metrics
+          </h2>
+
+          <p>
+            Current environmental readings received from NODE-F01
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="metric-grid air-metric-grid"
+        id="metrics"
+      >
+
+        <div class="metric">
+
+          <span>
+            PM2.5
+          </span>
+
+          <b>
+            --
+          </b>
+
+        </div>
+
+
+        <div class="metric">
+
+          <span>
+            Gas
+          </span>
+
+          <b>
+            --
+          </b>
+
+        </div>
+
+
+        <div class="metric">
+
+          <span>
+            Temperature
+          </span>
+
+          <b>
+            --
+          </b>
+
+        </div>
+
+
+        <div class="metric">
+
+          <span>
+            Humidity
+          </span>
+
+          <b>
+            --
+          </b>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         TREND + AIR INTERPRETATION
+    ======================================================== -->
+
+    <section class="grid-2 dashboard-main-grid">
+
+
+      <!-- TREND -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Sensor History
+            </span>
+
+            <h2>
+              Air Quality Trend
+            </h2>
+
+            <p>
+              Recent PM2.5 and gas readings
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="chart-shell">
+
+          <canvas
+            id="trendChart"
+            aria-label="Air quality sensor trend chart"
+          ></canvas>
+
+        </div>
+
+
+        <div class="panel-footer">
+
+          <span>
+            NODE-F01
+          </span>
+
+          <span>
+            Latest 7 readings
+          </span>
+
+        </div>
+
+      </article>
+
+
+      <!-- AIR RISK GUIDE -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Risk Interpretation
+            </span>
+
+            <h2>
+              Air Monitoring Guide
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="threshold-list">
+
+
+          <div class="threshold-row threshold-safe">
+
+            <div>
+
+              <strong>
+                SAFE
+              </strong>
+
+              <span>
+                Normal monitored conditions
+              </span>
+
+            </div>
+
+            <b>
+              Normal
+            </b>
+
+          </div>
+
+
+          <div class="threshold-row threshold-medium">
+
+            <div>
+
+              <strong>
+                MEDIUM
+              </strong>
+
+              <span>
+                Elevated pollutant indication
+              </span>
+
+            </div>
+
+            <b>
+              Monitor
+            </b>
+
+          </div>
+
+
+          <div class="threshold-row threshold-critical">
+
+            <div>
+
+              <strong>
+                CRITICAL
+              </strong>
+
+              <span>
+                High pollutant or gas condition
+              </span>
+
+            </div>
+
+            <b>
+              Action
+            </b>
+
+          </div>
+
+
+        </div>
+
+
+        <div class="risk-note">
+
+          <strong>
+            PM2.5 sensor status
+          </strong>
+
+          <p>
+            PM2.5 may display as unavailable until a dedicated
+            particulate-matter sensor is connected and forwarded
+            to the backend.
+          </p>
+
+        </div>
+
+      </article>
+
+
+    </section>
+
+
+    <!-- =======================================================
+         GAS INTERPRETATION
+    ======================================================== -->
+
+    <section aria-labelledby="airGasHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="airGasHeading">
+            Gas Interpretation
+          </h2>
+
+          <p>
+            MQ-2 gas concentration ranges used by the monitoring node
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="grid-3 gas-guide-grid">
+
+
+        <article class="card">
+
+          <span class="badge">
+            SAFE
+          </span>
+
+          <h3>
+            Normal Gas Level
+          </h3>
+
+          <p>
+            MQ-2 concentration below 700 ppm.
+          </p>
+
+        </article>
+
+
+        <article class="card">
+
+          <span class="badge">
+            MEDIUM
+          </span>
+
+          <h3>
+            Elevated Gas Level
+          </h3>
+
+          <p>
+            MQ-2 concentration from 700 to 1200 ppm.
+          </p>
+
+        </article>
+
+
+        <article class="card">
+
+          <span class="badge">
+            CRITICAL
+          </span>
+
+          <h3>
+            High Gas Level
+          </h3>
+
+          <p>
+            MQ-2 concentration above 1200 ppm.
+          </p>
+
+        </article>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         AIR INTELLIGENCE + NODE HEALTH
+    ======================================================== -->
+
+    <section class="grid-2 dashboard-main-grid">
+
+
+      <!-- AIR INTELLIGENCE -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Air Intelligence
+            </span>
+
+            <h2>
+              Risk Analysis
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="risk-explanation-grid">
+
+
+          <div class="risk-factor">
+
+            <span>
+              PM2.5
+            </span>
+
+            <strong id="airPm25Status">
+              --
+            </strong>
+
+            <small>
+              Particulate-matter condition
+            </small>
+
+          </div>
+
+
+          <div class="risk-factor">
+
+            <span>
+              Gas
+            </span>
+
+            <strong id="airGasStatus">
+              --
+            </strong>
+
+            <small>
+              MQ-2 gas interpretation
+            </small>
+
+          </div>
+
+
+          <div class="risk-factor">
+
+            <span>
+              Temperature
+            </span>
+
+            <strong id="airTemperatureStatus">
+              --
+            </strong>
+
+            <small>
+              Ambient temperature condition
+            </small>
+
+          </div>
+
+
+          <div class="risk-factor">
+
+            <span>
+              Humidity
+            </span>
+
+            <strong id="airHumidityStatus">
+              --
+            </strong>
+
+            <small>
+              Environmental moisture condition
+            </small>
+
+          </div>
+
+
+        </div>
+
+      </article>
+
+
+      <!-- NODE HEALTH -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Field Node
+            </span>
+
+            <h2>
+              NODE-F01 Health
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="system-health-list">
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                PM2.5 Sensor
+              </strong>
+
+              <span>
+                Particulate-matter sensing
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="airPm25Health"
+            >
+              --
+            </span>
+
+          </div>
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                MQ-2
+              </strong>
+
+              <span>
+                Gas and smoke monitoring
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="airMq2Health"
+            >
+              --
+            </span>
+
+          </div>
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                DHT11
+              </strong>
+
+              <span>
+                Temperature and humidity sensing
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="airDhtHealth"
+            >
+              --
+            </span>
+
+          </div>
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                LoRa Link
+              </strong>
+
+              <span>
+                433 MHz wireless communication
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="airLoraHealth"
+            >
+              --
+            </span>
+
+          </div>
+
+
+        </div>
+
+      </article>
+
+
+    </section>
+
+
+    <!-- =======================================================
+         AIR QUALITY FACTORS
+    ======================================================== -->
+
+    <section aria-labelledby="airFactorsHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="airFactorsHeading">
+            Air Quality Factors
+          </h2>
+
+          <p>
+            Key environmental signals used for pollution monitoring
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="grid-3 warning-factor-grid">
+
+
+        <article class="card">
+
+          <div class="hazard-icon">
+            PM
+          </div>
+
+          <h3>
+            Particulate Matter
+          </h3>
+
+          <p>
+            PM2.5 provides an indicator of fine airborne
+            particulate pollution when a dedicated sensor is available.
+          </p>
+
+        </article>
+
+
+        <article class="card">
+
+          <div class="hazard-icon">
+            G
+          </div>
+
+          <h3>
+            Gas Concentration
+          </h3>
+
+          <p>
+            MQ-2 readings provide supporting information for
+            abnormal gas and smoke conditions.
+          </p>
+
+        </article>
+
+
+        <article class="card">
+
+          <div class="hazard-icon">
+            E
+          </div>
+
+          <h3>
+            Environment
+          </h3>
+
+          <p>
+            Temperature and humidity provide environmental
+            context when interpreting air-quality conditions.
+          </p>
+
+        </article>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         CURRENT SENSOR CAPABILITY
+    ======================================================== -->
+
+    <section
+      class="panel capability-panel"
+      aria-labelledby="capabilityHeading"
+    >
+
+      <div class="panel-header">
+
+        <div>
+
+          <span class="eyebrow">
+            Sensor Capability
+          </span>
+
+          <h2 id="capabilityHeading">
+            Current Air Monitoring Configuration
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div class="node-information-grid">
+
+
+        <div class="node-info-item">
+
+          <span>
+            Gas / Smoke
+          </span>
+
+          <strong>
+            MQ-2
+          </strong>
+
+        </div>
+
+
+        <div class="node-info-item">
+
+          <span>
+            Temperature
+          </span>
+
+          <strong>
+            DHT11
+          </strong>
+
+        </div>
+
+
+        <div class="node-info-item">
+
+          <span>
+            Humidity
+          </span>
+
+          <strong>
+            DHT11
+          </strong>
+
+        </div>
+
+
+        <div class="node-info-item">
+
+          <span>
+            PM2.5
+          </span>
+
+          <strong>
+            Awaiting Dedicated Sensor
+          </strong>
+
+        </div>
+
+
+        <div class="node-info-item">
+
+          <span>
+            Communication
+          </span>
+
+          <strong>
+            LoRa 433 MHz
+          </strong>
+
+        </div>
+
+
+        <div class="node-info-item">
+
+          <span>
+            Controller
+          </span>
+
+          <strong>
+            ESP32
+          </strong>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         NODE DETAILS
+    ======================================================== -->
+
+    <section aria-labelledby="airNodeDetailsHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="airNodeDetailsHeading">
+            Air Monitoring Node
+          </h2>
+
+          <p>
+            Hardware and communication configuration
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <article class="panel node-detail-panel">
+
+        <div class="node-information-grid">
+
+
+          <div class="node-info-item">
+
+            <span>
+              Node ID
+            </span>
+
+            <strong>
+              NODE-F01
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Node Type
+            </span>
+
+            <strong>
+              Multi-Hazard Environmental Node
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Gas Sensor
+            </span>
+
+            <strong>
+              MQ-2
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Environment Sensor
+            </span>
+
+            <strong>
+              DHT11
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Communication
+            </span>
+
+            <strong>
+              LoRa 433 MHz
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Controller
+            </span>
+
+            <strong>
+              ESP32
+            </strong>
+
+          </div>
+
+
+        </div>
+
+      </article>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
+
+  <footer>
+
+    <div class="footer-inner">
+
+      <div>
+
+        <strong>
+          Environmental Prediction System
+        </strong>
+
+        <div>
+          Air Quality Monitoring & Environmental Intelligence
+        </div>
+
+      </div>
+
+
+      <div>
+
+        Government of India
+        ·
+        <span data-project-code>
+          SIH 26078
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
+
+  <script src="js/config.js"></script>
+
+  <script src="js/common.js"></script>
+
+  <script src="js/api.js"></script>
+
+  <script src="js/charts.js"></script>
+
+  <script src="js/hazard.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Forest fire monitoring dashboard for the Environmental Prediction System"
+  >
+
+  <title>
+    Fire Monitoring | Environmental Prediction System
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="css/styles.css"
+  >
+
+</head>
+
+
+<body data-page="fire">
+
+
+  <!-- =========================================================
+       HEADER
+  ========================================================== -->
+
+  <header class="site-header">
+
+
+    <!-- BRAND -->
+
+    <div class="brand">
+
+      <div
+        class="brand-mark"
+        aria-hidden="true"
+      >
+        EPS
+      </div>
+
+
+      <div class="brand-copy">
+
+        <h1>
+          Environmental Prediction System
+        </h1>
+
+        <p>
+          Government of India
+          ·
+          Integrated Environmental Monitoring Network
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <nav
+      class="nav"
+      aria-label="Main navigation"
+    >
+
+      <a
+        href="home.html"
+        data-page-link="home"
+      >
+        Overview
+      </a>
+
+      <a
+        href="flood.html"
+        data-page-link="flood"
+      >
+        Flood
+      </a>
+
+      <a
+        href="fire.html"
+        data-page-link="fire"
+        class="active"
+      >
+        Fire
+      </a>
+
+      <a
+        href="air.html"
+        data-page-link="air"
+      >
+        Air Quality
+      </a>
+
+      <a
+        href="contacts.html"
+        data-page-link="contacts"
+      >
+        Contacts
+      </a>
+
+    </nav>
+
+
+    <!-- USER -->
+
+      <div class="user-area">
+
+        <div class="user-avatar">
+          U
+        </div>
+
+        <div class="user-details">
+
+          <strong
+            id="currentUserName"
+            data-user-name
+          >
+            User
+          </strong>
+
+          <span
+            id="currentUserEmail"
+            data-user-email
+          >
+            Authorized User
+          </span>
+
+        </div>
+
+        <button
+          type="button"
+          class="btn ghost"
+          id="logoutButton"
+          data-logout
+        >
+          Logout
+        </button>
+
+      </div>
+
+  </header>
+
+
+  <!-- =========================================================
+       MAIN
+  ========================================================== -->
+
+  <main class="container">
+
+
+    <!-- =======================================================
+         PAGE INTRO
+    ======================================================== -->
+
+    <section class="dashboard-intro hazard-page-intro">
+
+      <div>
+
+        <span class="badge">
+          Forest Fire Intelligence
+        </span>
+
+        <h2 id="pageTitle">
+          Forest Fire Monitoring
+        </h2>
+
+        <p id="pageSubtitle">
+          Real-time heat, humidity, smoke and gas monitoring
+        </p>
+
+      </div>
+
+
+      <div class="dashboard-intro-meta">
+
+        <div class="project-meta-item">
+
+          <span>
+            Node
+          </span>
+
+          <strong id="nodeId">
+            NODE-F01
+          </strong>
+
+        </div>
+
+
+        <div class="project-meta-item">
+
+          <span>
+            Monitoring Zone
+          </span>
+
+          <strong id="zone">
+            Forest Monitoring Zone
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         FIRE RISK STATUS
+    ======================================================== -->
+
+    <section
+      class="system-status-banner hazard-status-banner"
+      id="fireStatusBanner"
+    >
+
+      <div class="status-banner-main">
+
+        <div
+          class="status-banner-icon"
+          aria-hidden="true"
+        >
+          ▲
+        </div>
+
+
+        <div>
+
+          <span class="eyebrow">
+            Current Fire Risk
+          </span>
+
+          <h2>
+
+            <span
+              class="status-pill"
+              id="riskLevel"
+            >
+              CHECKING
+            </span>
+
+          </h2>
+
+          <p id="fireRiskSummary">
+            Evaluating temperature, humidity and smoke/gas conditions.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="status-banner-meta">
+
+        <div>
+
+          <span>
+            Node Status
+          </span>
+
+          <strong id="fireNodeStatus">
+            CHECKING
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Last Reading
+          </span>
+
+          <strong id="updatedAt">
+            --
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Data Source
+          </span>
+
+          <strong>
+            Live Sensor Network
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         LIVE FIRE METRICS
+    ======================================================== -->
+
+    <section aria-labelledby="fireMetricsHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="fireMetricsHeading">
+            Live Fire Metrics
+          </h2>
+
+          <p>
+            Current environmental readings from NODE-F01
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="metric-grid fire-metric-grid"
+        id="metrics"
+      >
+
+        <div class="metric">
+
+          <span>
+            Temperature
+          </span>
+
+          <b>
+            --
+          </b>
+
+        </div>
+
+
+        <div class="metric">
+
+          <span>
+            Humidity
+          </span>
+
+          <b>
+            --
+          </b>
+
+        </div>
+
+
+        <div class="metric">
+
+          <span>
+            Smoke
+          </span>
+
+          <b>
+            --
+          </b>
+
+        </div>
+
+
+        <div class="metric">
+
+          <span>
+            Gas
+          </span>
+
+          <b>
+            --
+          </b>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         TREND + TEMPERATURE GUIDE
+    ======================================================== -->
+
+    <section class="grid-2 dashboard-main-grid">
+
+
+      <!-- TREND -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Sensor History
+            </span>
+
+            <h2>
+              Fire Risk Trend
+            </h2>
+
+            <p>
+              Recent temperature and smoke/gas readings
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="chart-shell">
+
+          <canvas
+            id="trendChart"
+            aria-label="Forest fire sensor trend chart"
+          ></canvas>
+
+        </div>
+
+
+        <div class="panel-footer">
+
+          <span>
+            NODE-F01
+          </span>
+
+          <span>
+            Latest 7 readings
+          </span>
+
+        </div>
+
+      </article>
+
+
+      <!-- TEMPERATURE GUIDE -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Risk Interpretation
+            </span>
+
+            <h2>
+              Temperature Guide
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="threshold-list">
+
+
+          <div class="threshold-row threshold-safe">
+
+            <div>
+
+              <strong>
+                SAFE
+              </strong>
+
+              <span>
+                Normal temperature
+              </span>
+
+            </div>
+
+            <b>
+              &lt; 25 °C
+            </b>
+
+          </div>
+
+
+          <div class="threshold-row threshold-medium">
+
+            <div>
+
+              <strong>
+                MEDIUM
+              </strong>
+
+              <span>
+                Elevated temperature
+              </span>
+
+            </div>
+
+            <b>
+              25 to 30 °C
+            </b>
+
+          </div>
+
+
+          <div class="threshold-row threshold-critical">
+
+            <div>
+
+              <strong>
+                CRITICAL
+              </strong>
+
+              <span>
+                High-temperature condition
+              </span>
+
+            </div>
+
+            <b>
+              &gt; 30 °C
+            </b>
+
+          </div>
+
+
+        </div>
+
+
+        <div class="risk-note">
+
+          <strong>
+            Multi-sensor monitoring
+          </strong>
+
+          <p>
+            Temperature is interpreted together with humidity,
+            smoke and combustible-gas readings for fire monitoring.
+          </p>
+
+        </div>
+
+      </article>
+
+
+    </section>
+
+
+    <!-- =======================================================
+         GAS / SMOKE GUIDE
+    ======================================================== -->
+
+    <section aria-labelledby="gasGuideHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="gasGuideHeading">
+            Smoke & Gas Interpretation
+          </h2>
+
+          <p>
+            MQ-2 gas concentration ranges used by the field node
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="grid-3 gas-guide-grid">
+
+
+        <article class="card">
+
+          <span class="badge">
+            SAFE
+          </span>
+
+          <h3>
+            Normal Gas Level
+          </h3>
+
+          <p>
+            MQ-2 concentration below 700 ppm.
+          </p>
+
+        </article>
+
+
+        <article class="card">
+
+          <span class="badge">
+            MEDIUM
+          </span>
+
+          <h3>
+            Elevated Gas Level
+          </h3>
+
+          <p>
+            MQ-2 concentration from 700 to 1200 ppm.
+          </p>
+
+        </article>
+
+
+        <article class="card">
+
+          <span class="badge">
+            CRITICAL
+          </span>
+
+          <h3>
+            High Gas Level
+          </h3>
+
+          <p>
+            MQ-2 concentration above 1200 ppm.
+          </p>
+
+        </article>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         FIRE INTELLIGENCE + NODE HEALTH
+    ======================================================== -->
+
+    <section class="grid-2 dashboard-main-grid">
+
+
+      <!-- INTELLIGENCE -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Fire Intelligence
+            </span>
+
+            <h2>
+              Risk Analysis
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="risk-explanation-grid">
+
+
+          <div class="risk-factor">
+
+            <span>
+              Temperature
+            </span>
+
+            <strong id="fireTemperatureStatus">
+              --
+            </strong>
+
+            <small>
+              Current heat classification
+            </small>
+
+          </div>
+
+
+          <div class="risk-factor">
+
+            <span>
+              Humidity
+            </span>
+
+            <strong id="fireHumidityStatus">
+              --
+            </strong>
+
+            <small>
+              Environmental moisture condition
+            </small>
+
+          </div>
+
+
+          <div class="risk-factor">
+
+            <span>
+              Smoke
+            </span>
+
+            <strong id="fireSmokeStatus">
+              --
+            </strong>
+
+            <small>
+              Smoke sensor observation
+            </small>
+
+          </div>
+
+
+          <div class="risk-factor">
+
+            <span>
+              Gas
+            </span>
+
+            <strong id="fireGasStatus">
+              --
+            </strong>
+
+            <small>
+              MQ-2 combustible-gas condition
+            </small>
+
+          </div>
+
+
+        </div>
+
+      </article>
+
+
+      <!-- NODE HEALTH -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Field Node
+            </span>
+
+            <h2>
+              NODE-F01 Health
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="system-health-list">
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                DHT11
+              </strong>
+
+              <span>
+                Temperature and humidity sensing
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="fireDhtHealth"
+            >
+              --
+            </span>
+
+          </div>
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                MQ-2
+              </strong>
+
+              <span>
+                Smoke and combustible gas monitoring
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="fireMq2Health"
+            >
+              --
+            </span>
+
+          </div>
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                LoRa Link
+              </strong>
+
+              <span>
+                433 MHz field communication
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="fireLoraHealth"
+            >
+              --
+            </span>
+
+          </div>
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                Gateway
+              </strong>
+
+              <span>
+                Backend forwarding status
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="fireGatewayHealth"
+            >
+              --
+            </span>
+
+          </div>
+
+
+        </div>
+
+      </article>
+
+
+    </section>
+
+
+    <!-- =======================================================
+         FIRE WARNING FACTORS
+    ======================================================== -->
+
+    <section aria-labelledby="warningFactorsHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="warningFactorsHeading">
+            Fire Warning Factors
+          </h2>
+
+          <p>
+            Key environmental indicators used for early detection
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="grid-3 warning-factor-grid">
+
+
+        <article class="card">
+
+          <div class="hazard-icon">
+            T
+          </div>
+
+          <h3>
+            Rising Temperature
+          </h3>
+
+          <p>
+            Increasing ambient temperature can indicate
+            worsening fire conditions.
+          </p>
+
+        </article>
+
+
+        <article class="card">
+
+          <div class="hazard-icon">
+            H
+          </div>
+
+          <h3>
+            Humidity
+          </h3>
+
+          <p>
+            Humidity provides environmental context when
+            interpreting heat and smoke conditions.
+          </p>
+
+        </article>
+
+
+        <article class="card">
+
+          <div class="hazard-icon">
+            G
+          </div>
+
+          <h3>
+            Smoke & Gas
+          </h3>
+
+          <p>
+            MQ-2 measurements help identify abnormal
+            combustible-gas and smoke conditions.
+          </p>
+
+        </article>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         NODE DETAILS
+    ======================================================== -->
+
+    <section aria-labelledby="fireNodeDetailsHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="fireNodeDetailsHeading">
+            Fire Monitoring Node
+          </h2>
+
+          <p>
+            Hardware and communication configuration
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <article class="panel node-detail-panel">
+
+        <div class="node-information-grid">
+
+
+          <div class="node-info-item">
+
+            <span>
+              Node ID
+            </span>
+
+            <strong>
+              NODE-F01
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Temperature Sensor
+            </span>
+
+            <strong>
+              DHT11
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Gas / Smoke Sensor
+            </span>
+
+            <strong>
+              MQ-2
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Communication
+            </span>
+
+            <strong>
+              LoRa 433 MHz
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Controller
+            </span>
+
+            <strong>
+              ESP32
+            </strong>
+
+          </div>
+
+
+          <div class="node-info-item">
+
+            <span>
+              Monitoring Type
+            </span>
+
+            <strong>
+              Multi-Hazard Environmental Node
+            </strong>
+
+          </div>
+
+
+        </div>
+
+      </article>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
+
+  <footer>
+
+    <div class="footer-inner">
+
+      <div>
+
+        <strong>
+          Environmental Prediction System
+        </strong>
+
+        <div>
+          Forest Fire Monitoring & Early Warning
+        </div>
+
+      </div>
+
+
+      <div>
+
+        Government of India
+        ·
+        <span data-project-code>
+          SIH 26078
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
+
+  <script src="js/config.js"></script>
+
+  <script src="js/common.js"></script>
+
+  <script src="js/api.js"></script>
+
+  <script src="js/charts.js"></script>
+
+  <script src="js/hazard.js"></script>
+
+
+</body>
+
+</html>

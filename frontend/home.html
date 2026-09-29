@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Environmental Prediction System dashboard"
+  >
+
+  <title>
+    Environmental Prediction System | Dashboard
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="css/styles.css"
+  >
+
+</head>
+
+
+<body data-page="home">
+
+
+  <!-- =========================================================
+       HEADER
+  ========================================================== -->
+
+  <header class="site-header">
+
+
+    <!-- BRAND -->
+
+    <div class="brand">
+
+      <div
+        class="brand-mark"
+        aria-hidden="true"
+      >
+        EPS
+      </div>
+
+
+      <div class="brand-copy">
+
+        <h1>
+          Environmental Prediction System
+        </h1>
+
+        <p>
+          Government of India
+          ·
+          Integrated Environmental Monitoring Network
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <nav
+      class="nav"
+      aria-label="Main navigation"
+    >
+
+      <a
+        href="home.html"
+        data-page-link="home"
+        class="active"
+      >
+        Overview
+      </a>
+
+      <a
+        href="flood.html"
+        data-page-link="flood"
+      >
+        Flood
+      </a>
+
+      <a
+        href="fire.html"
+        data-page-link="fire"
+      >
+        Fire
+      </a>
+
+      <a
+        href="air.html"
+        data-page-link="air"
+      >
+        Air Quality
+      </a>
+
+      <a
+        href="contacts.html"
+        data-page-link="contacts"
+      >
+        Contacts
+      </a>
+
+    </nav>
+
+
+
+
+     
+      <!-- USER -->
+
+      <div class="user-area">
+
+        <div class="user-avatar">
+          U
+        </div>
+
+        <div class="user-details">
+
+          <strong
+            id="currentUserName"
+            data-user-name
+          >
+            User
+          </strong>
+
+          <span
+            id="currentUserEmail"
+            data-user-email
+          >
+            Authorized User
+          </span>
+
+        </div>
+
+        <button
+          type="button"
+          class="btn ghost"
+          id="logoutButton"
+          data-logout
+        >
+          Logout
+        </button>
+
+      </div>
+
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================================================
+       MAIN CONTENT
+  ========================================================== -->
+
+  <main class="container">
+
+
+    <!-- =======================================================
+         PAGE INTRO
+    ======================================================== -->
+
+    <section class="dashboard-intro">
+
+      <div>
+
+        <span class="badge">
+          Environmental Command Dashboard
+        </span>
+
+        <h2>
+          National Environmental Monitoring Overview
+        </h2>
+
+        <p>
+          Real-time environmental intelligence for flood,
+          forest fire and air-quality monitoring using
+          distributed sensing, LoRa communication and
+          centralized risk analysis.
+        </p>
+
+      </div>
+
+
+      <div class="dashboard-intro-meta">
+
+        <div class="project-meta-item">
+
+          <span>
+            Project Code
+          </span>
+
+          <strong data-project-code>
+            SIH 26078
+          </strong>
+
+        </div>
+
+
+        <div class="project-meta-item">
+
+          <span>
+            Last Dashboard Update
+          </span>
+
+          <strong id="lastUpdated">
+            --
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         OVERALL NETWORK STATUS
+    ======================================================== -->
+
+    <section
+      class="system-status-banner"
+      id="systemStatusBanner"
+    >
+
+      <div class="status-banner-main">
+
+        <div
+          class="status-banner-icon"
+          aria-hidden="true"
+        >
+          ●
+        </div>
+
+
+        <div>
+
+          <span class="eyebrow">
+            Overall Network Status
+          </span>
+
+          <h2 id="overallRiskLevel">
+            CHECKING
+          </h2>
+
+          <p id="overallRiskMessage">
+            Connecting to the environmental monitoring network...
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="status-banner-meta">
+
+        <div>
+
+          <span>
+            Last Sensor Packet
+          </span>
+
+          <strong id="lastPacketTime">
+            --
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Active Node
+          </span>
+
+          <strong id="activeNodeName">
+            NODE-F01
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Network Mode
+          </span>
+
+          <strong id="networkMode">
+            LIVE
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         SUMMARY STATISTICS
+    ======================================================== -->
+
+    <section aria-labelledby="summaryHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="summaryHeading">
+            Network Summary
+          </h2>
+
+          <p>
+            Current operational and risk distribution
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="stats dashboard-stats">
+
+
+        <article class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Total Nodes
+            </span>
+
+            <span
+              class="stat-icon"
+              aria-hidden="true"
+            >
+              N
+            </span>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="totalNodes"
+          >
+            --
+          </div>
+
+          <div class="stat-sub">
+            Registered monitoring nodes
+          </div>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Online Nodes
+            </span>
+
+            <span
+              class="stat-icon"
+              aria-hidden="true"
+            >
+              ●
+            </span>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="onlineNodes"
+          >
+            --
+          </div>
+
+          <div class="stat-sub">
+            Currently transmitting
+          </div>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Safe
+            </span>
+
+            <span
+              class="stat-icon"
+              aria-hidden="true"
+            >
+              ✓
+            </span>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="safeNodes"
+          >
+            --
+          </div>
+
+          <div class="stat-sub">
+            Normal environmental conditions
+          </div>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Medium Risk
+            </span>
+
+            <span
+              class="stat-icon"
+              aria-hidden="true"
+            >
+              !
+            </span>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="mediumNodes"
+          >
+            --
+          </div>
+
+          <div class="stat-sub">
+            Conditions require monitoring
+          </div>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Critical
+            </span>
+
+            <span
+              class="stat-icon"
+              aria-hidden="true"
+            >
+              !
+            </span>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="criticalNodes"
+          >
+            --
+          </div>
+
+          <div class="stat-sub">
+            Immediate attention required
+          </div>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Alerts Today
+            </span>
+
+            <span
+              class="stat-icon"
+              aria-hidden="true"
+            >
+              A
+            </span>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="alertsToday"
+          >
+            --
+          </div>
+
+          <div class="stat-sub">
+            Generated by the risk engine
+          </div>
+
+        </article>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         HAZARD MONITORING
+    ======================================================== -->
+
+    <section aria-labelledby="hazardHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="hazardHeading">
+            Hazard Monitoring
+          </h2>
+
+          <p>
+            Live overview of environmental hazards
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="grid-3 hazard-overview-grid">
+
+
+        <!-- FLOOD -->
+
+        <article
+          class="card hazard-card hazard-card-flood"
+          id="floodOverviewCard"
+        >
+
+          <div class="hazard-card-header">
+
+            <div class="hazard-title-group">
+
+              <div
+                class="hazard-icon"
+                aria-hidden="true"
+              >
+                F
+              </div>
+
+              <div>
+
+                <span class="hazard-category">
+                  Flood Monitoring
+                </span>
+
+                <h3>
+                  Water & Rainfall
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <span
+              class="status-pill"
+              id="floodStatus"
+            >
+              --
+            </span>
+
+          </div>
+
+
+          <div class="metric-grid">
+
+            <div class="metric">
+
+              <span>
+                Water Level
+              </span>
+
+              <b id="floodWaterLevel">
+                --
+              </b>
+
+            </div>
+
+
+            <div class="metric">
+
+              <span>
+                Rain Sensor
+              </span>
+
+              <b id="floodRainfall">
+                --
+              </b>
+
+            </div>
+
+
+            <div class="metric">
+
+              <span>
+                Temperature
+              </span>
+
+              <b id="floodTemperature">
+                --
+              </b>
+
+            </div>
+
+
+            <div class="metric">
+
+              <span>
+                Humidity
+              </span>
+
+              <b id="floodHumidity">
+                --
+              </b>
+
+            </div>
+
+          </div>
+
+
+          <div class="hazard-card-footer">
+
+            <span
+              class="node-state"
+              id="floodNodeState"
+            >
+              Node status: --
+            </span>
+
+            <a
+              href="flood.html"
+              class="btn secondary"
+            >
+              View Flood Dashboard
+            </a>
+
+          </div>
+
+        </article>
+
+
+        <!-- FIRE -->
+
+        <article
+          class="card hazard-card hazard-card-fire"
+          id="fireOverviewCard"
+        >
+
+          <div class="hazard-card-header">
+
+            <div class="hazard-title-group">
+
+              <div
+                class="hazard-icon"
+                aria-hidden="true"
+              >
+                F
+              </div>
+
+              <div>
+
+                <span class="hazard-category">
+                  Forest Fire Monitoring
+                </span>
+
+                <h3>
+                  Heat & Smoke
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <span
+              class="status-pill"
+              id="fireStatus"
+            >
+              --
+            </span>
+
+          </div>
+
+
+          <div class="metric-grid">
+
+            <div class="metric">
+
+              <span>
+                Temperature
+              </span>
+
+              <b id="fireTemperature">
+                --
+              </b>
+
+            </div>
+
+
+            <div class="metric">
+
+              <span>
+                Humidity
+              </span>
+
+              <b id="fireHumidity">
+                --
+              </b>
+
+            </div>
+
+
+            <div class="metric">
+
+              <span>
+                Smoke
+              </span>
+
+              <b id="fireSmoke">
+                --
+              </b>
+
+            </div>
+
+
+            <div class="metric">
+
+              <span>
+                Gas
+              </span>
+
+              <b id="fireGas">
+                --
+              </b>
+
+            </div>
+
+          </div>
+
+
+          <div class="hazard-card-footer">
+
+            <span
+              class="node-state"
+              id="fireNodeState"
+            >
+              Node status: --
+            </span>
+
+            <a
+              href="fire.html"
+              class="btn secondary"
+            >
+              View Fire Dashboard
+            </a>
+
+          </div>
+
+        </article>
+
+
+        <!-- AIR -->
+
+        <article
+          class="card hazard-card hazard-card-air"
+          id="airOverviewCard"
+        >
+
+          <div class="hazard-card-header">
+
+            <div class="hazard-title-group">
+
+              <div
+                class="hazard-icon"
+                aria-hidden="true"
+              >
+                A
+              </div>
+
+              <div>
+
+                <span class="hazard-category">
+                  Air Quality Monitoring
+                </span>
+
+                <h3>
+                  Air & Gas Conditions
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <span
+              class="status-pill"
+              id="airStatus"
+            >
+              --
+            </span>
+
+          </div>
+
+
+          <div class="metric-grid">
+
+            <div class="metric">
+
+              <span>
+                PM2.5
+              </span>
+
+              <b id="airPm25">
+                --
+              </b>
+
+            </div>
+
+
+            <div class="metric">
+
+              <span>
+                Gas
+              </span>
+
+              <b id="airGas">
+                --
+              </b>
+
+            </div>
+
+
+            <div class="metric">
+
+              <span>
+                Temperature
+              </span>
+
+              <b id="airTemperature">
+                --
+              </b>
+
+            </div>
+
+
+            <div class="metric">
+
+              <span>
+                Humidity
+              </span>
+
+              <b id="airHumidity">
+                --
+              </b>
+
+            </div>
+
+          </div>
+
+
+          <div class="hazard-card-footer">
+
+            <span
+              class="node-state"
+              id="airNodeState"
+            >
+              Node status: --
+            </span>
+
+            <a
+              href="air.html"
+              class="btn secondary"
+            >
+              View Air Dashboard
+            </a>
+
+          </div>
+
+        </article>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         LIVE DATA + ALERTS
+    ======================================================== -->
+
+    <section class="grid-2 dashboard-main-grid">
+
+
+      <!-- LIVE SENSOR TREND -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Live Sensor Intelligence
+            </span>
+
+            <h2>
+              Environmental Trend
+            </h2>
+
+          </div>
+
+
+          <div class="chart-controls">
+
+            <label
+              for="trendMetric"
+              class="sr-only"
+            >
+              Select metric
+            </label>
+
+            <select id="trendMetric">
+
+              <option value="water_level">
+                Water Level
+              </option>
+
+              <option value="rainfall">
+                Rain Sensor
+              </option>
+
+              <option value="temperature">
+                Temperature
+              </option>
+
+              <option value="humidity">
+                Humidity
+              </option>
+
+              <option value="gas">
+                Gas
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="chart-shell"
+          id="homeChartShell"
+        >
+
+          <canvas
+            id="homeTrendChart"
+            aria-label="Live environmental sensor trend"
+          ></canvas>
+
+        </div>
+
+
+        <div class="panel-footer">
+
+          <span id="trendNodeLabel">
+            NODE-F01
+          </span>
+
+          <span id="trendUpdatedAt">
+            Awaiting sensor data
+          </span>
+
+        </div>
+
+      </article>
+
+
+      <!-- ALERT CENTER -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Alert Center
+            </span>
+
+            <h2>
+              Recent Alerts
+            </h2>
+
+          </div>
+
+
+          <span
+            class="badge"
+            id="alertCountBadge"
+          >
+            0 alerts
+          </span>
+
+        </div>
+
+
+        <div
+          class="alert-list"
+          id="recentAlerts"
+        >
+
+          <div class="empty-state">
+
+            <strong>
+              Loading alerts...
+            </strong>
+
+            <p>
+              Recent environmental alerts will appear here.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="panel-footer">
+
+          <span>
+            MEDIUM and CRITICAL events
+          </span>
+
+        </div>
+
+      </article>
+
+
+    </section>
+
+
+    <!-- =======================================================
+         NODE + SYSTEM HEALTH
+    ======================================================== -->
+
+    <section class="grid-2 dashboard-main-grid">
+
+
+      <!-- NODE INFORMATION -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Monitoring Node
+            </span>
+
+            <h2>
+              NODE-F01
+            </h2>
+
+          </div>
+
+
+          <span
+            class="status-pill"
+            id="nodeOnlineStatus"
+          >
+            --
+          </span>
+
+        </div>
+
+
+        <div class="node-overview">
+
+
+          <div class="node-map">
+
+            <div
+              class="map-node safe"
+              id="homeMapNode"
+              data-label="NODE-F01"
+            ></div>
+
+          </div>
+
+
+          <div class="node-information-grid">
+
+
+            <div class="node-info-item">
+
+              <span>
+                Node Type
+              </span>
+
+              <strong>
+                Multi-Hazard Environmental Node
+              </strong>
+
+            </div>
+
+
+            <div class="node-info-item">
+
+              <span>
+                Communication
+              </span>
+
+              <strong>
+                LoRa 433 MHz
+              </strong>
+
+            </div>
+
+
+            <div class="node-info-item">
+
+              <span>
+                Gateway
+              </span>
+
+              <strong id="nodeGatewayStatus">
+                --
+              </strong>
+
+            </div>
+
+
+            <div class="node-info-item">
+
+              <span>
+                Last Reading
+              </span>
+
+              <strong id="nodeLastReading">
+                --
+              </strong>
+
+            </div>
+
+
+            <div class="node-info-item">
+
+              <span>
+                Latest Packet
+              </span>
+
+              <strong id="latestPacketNumber">
+                --
+              </strong>
+
+            </div>
+
+
+            <div class="node-info-item">
+
+              <span>
+                Risk Level
+              </span>
+
+              <strong id="nodeRiskLevel">
+                --
+              </strong>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- SYSTEM HEALTH -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <span class="eyebrow">
+              Infrastructure
+            </span>
+
+            <h2>
+              System Health
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="system-health-list">
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                Sensor Node
+              </strong>
+
+              <span>
+                ESP32 environmental node
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="healthNode"
+            >
+              CHECKING
+            </span>
+
+          </div>
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                LoRa Link
+              </strong>
+
+              <span>
+                433 MHz wireless connection
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="healthLora"
+            >
+              CHECKING
+            </span>
+
+          </div>
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                Gateway
+              </strong>
+
+              <span>
+                Receiver ESP32 + Wi-Fi
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="healthGateway"
+            >
+              CHECKING
+            </span>
+
+          </div>
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                FastAPI Backend
+              </strong>
+
+              <span>
+                Environmental data API
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="healthApi"
+            >
+              CHECKING
+            </span>
+
+          </div>
+
+
+          <div class="health-row">
+
+            <div>
+
+              <strong>
+                PostgreSQL Database
+              </strong>
+
+              <span>
+                Sensor and alert storage
+              </span>
+
+            </div>
+
+            <span
+              class="health-status"
+              id="healthDatabase"
+            >
+              CHECKING
+            </span>
+
+          </div>
+
+
+        </div>
+
+      </article>
+
+
+    </section>
+
+
+    <!-- =======================================================
+         SENSOR HEALTH
+    ======================================================== -->
+
+    <section aria-labelledby="sensorHealthHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="sensorHealthHeading">
+            Sensor Health
+          </h2>
+
+          <p>
+            Current sensor availability on NODE-F01
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="grid-3 sensor-health-grid">
+
+
+        <article class="card sensor-health-card">
+
+          <div class="sensor-health-icon">
+            WL
+          </div>
+
+          <div>
+
+            <h3>
+              Ultrasonic Water Sensor
+            </h3>
+
+            <p>
+              Flood water-level monitoring
+            </p>
+
+          </div>
+
+          <span
+            class="health-status"
+            id="sensorWaterStatus"
+          >
+            --
+          </span>
+
+        </article>
+
+
+        <article class="card sensor-health-card">
+
+          <div class="sensor-health-icon">
+            TH
+          </div>
+
+          <div>
+
+            <h3>
+              DHT11
+            </h3>
+
+            <p>
+              Temperature and humidity
+            </p>
+
+          </div>
+
+          <span
+            class="health-status"
+            id="sensorDhtStatus"
+          >
+            --
+          </span>
+
+        </article>
+
+
+        <article class="card sensor-health-card">
+
+          <div class="sensor-health-icon">
+            RN
+          </div>
+
+          <div>
+
+            <h3>
+              Rain Sensor
+            </h3>
+
+            <p>
+              Rain intensity detection
+            </p>
+
+          </div>
+
+          <span
+            class="health-status"
+            id="sensorRainStatus"
+          >
+            --
+          </span>
+
+        </article>
+
+
+        <article class="card sensor-health-card">
+
+          <div class="sensor-health-icon">
+            MQ
+          </div>
+
+          <div>
+
+            <h3>
+              MQ-2
+            </h3>
+
+            <p>
+              Smoke and combustible gas monitoring
+            </p>
+
+          </div>
+
+          <span
+            class="health-status"
+            id="sensorGasStatus"
+          >
+            --
+          </span>
+
+        </article>
+
+
+        <article class="card sensor-health-card">
+
+          <div class="sensor-health-icon">
+            LR
+          </div>
+
+          <div>
+
+            <h3>
+              LoRa Radio
+            </h3>
+
+            <p>
+              Long-range node communication
+            </p>
+
+          </div>
+
+          <span
+            class="health-status"
+            id="sensorLoraStatus"
+          >
+            --
+          </span>
+
+        </article>
+
+
+        <article class="card sensor-health-card">
+
+          <div class="sensor-health-icon">
+            GW
+          </div>
+
+          <div>
+
+            <h3>
+              Gateway Link
+            </h3>
+
+            <p>
+              Backend data forwarding
+            </p>
+
+          </div>
+
+          <span
+            class="health-status"
+            id="sensorGatewayStatus"
+          >
+            --
+          </span>
+
+        </article>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         RISK EXPLANATION
+    ======================================================== -->
+
+    <section
+      class="panel risk-explanation-panel"
+      id="riskExplanationPanel"
+    >
+
+      <div class="panel-header">
+
+        <div>
+
+          <span class="eyebrow">
+            Explainable Risk
+          </span>
+
+          <h2>
+            Why this status?
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="risk-explanation-grid"
+        id="riskExplanation"
+      >
+
+        <div class="risk-factor">
+
+          <span>
+            Water Level
+          </span>
+
+          <strong id="riskWaterValue">
+            --
+          </strong>
+
+          <small id="riskWaterReason">
+            Waiting for data
+          </small>
+
+        </div>
+
+
+        <div class="risk-factor">
+
+          <span>
+            Rain Condition
+          </span>
+
+          <strong id="riskRainValue">
+            --
+          </strong>
+
+          <small id="riskRainReason">
+            Waiting for data
+          </small>
+
+        </div>
+
+
+        <div class="risk-factor">
+
+          <span>
+            Temperature
+          </span>
+
+          <strong id="riskTemperatureValue">
+            --
+          </strong>
+
+          <small id="riskTemperatureReason">
+            Waiting for data
+          </small>
+
+        </div>
+
+
+        <div class="risk-factor">
+
+          <span>
+            Gas / Smoke
+          </span>
+
+          <strong id="riskGasValue">
+            --
+          </strong>
+
+          <small id="riskGasReason">
+            Waiting for data
+          </small>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         SYSTEM ARCHITECTURE
+    ======================================================== -->
+
+    <section aria-labelledby="architectureHeading">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2 id="architectureHeading">
+            Monitoring Architecture
+          </h2>
+
+          <p>
+            End-to-end environmental data flow
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="architecture-flow">
+
+
+        <div class="architecture-step">
+
+          <span class="architecture-number">
+            01
+          </span>
+
+          <strong>
+            Sensors
+          </strong>
+
+          <small>
+            Water, rain, temperature, humidity and gas
+          </small>
+
+        </div>
+
+
+        <span
+          class="architecture-arrow"
+          aria-hidden="true"
+        >
+          →
+        </span>
+
+
+        <div class="architecture-step">
+
+          <span class="architecture-number">
+            02
+          </span>
+
+          <strong>
+            ESP32 Edge Node
+          </strong>
+
+          <small>
+            Local sensing and risk intelligence
+          </small>
+
+        </div>
+
+
+        <span
+          class="architecture-arrow"
+          aria-hidden="true"
+        >
+          →
+        </span>
+
+
+        <div class="architecture-step">
+
+          <span class="architecture-number">
+            03
+          </span>
+
+          <strong>
+            LoRa 433 MHz
+          </strong>
+
+          <small>
+            Long-range wireless communication
+          </small>
+
+        </div>
+
+
+        <span
+          class="architecture-arrow"
+          aria-hidden="true"
+        >
+          →
+        </span>
+
+
+        <div class="architecture-step">
+
+          <span class="architecture-number">
+            04
+          </span>
+
+          <strong>
+            Gateway
+          </strong>
+
+          <small>
+            ESP32 receiver and Wi-Fi forwarding
+          </small>
+
+        </div>
+
+
+        <span
+          class="architecture-arrow"
+          aria-hidden="true"
+        >
+          →
+        </span>
+
+
+        <div class="architecture-step">
+
+          <span class="architecture-number">
+            05
+          </span>
+
+          <strong>
+            FastAPI + PostgreSQL
+          </strong>
+
+          <small>
+            Storage, analysis and alert generation
+          </small>
+
+        </div>
+
+
+        <span
+          class="architecture-arrow"
+          aria-hidden="true"
+        >
+          →
+        </span>
+
+
+        <div class="architecture-step">
+
+          <span class="architecture-number">
+            06
+          </span>
+
+          <strong>
+            Dashboard & Alerts
+          </strong>
+
+          <small>
+            Live monitoring and notifications
+          </small>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
+
+  <footer>
+
+    <div class="footer-inner">
+
+      <div>
+
+        <strong>
+          Environmental Prediction System
+        </strong>
+
+        <div>
+          Integrated Environmental Monitoring & Early Warning Platform
+        </div>
+
+      </div>
+
+
+      <div>
+
+        Government of India
+        ·
+        <span data-project-code>
+          SIH 26078
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
+
+  <script src="js/config.js"></script>
+
+  <script src="js/common.js"></script>
+
+  <script src="js/api.js"></script>
+
+  <script src="js/charts.js"></script>
+
+  <script src="js/home.js"></script>
+
+
+</body>
+
+</html>
