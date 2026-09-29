@@ -2,94 +2,71 @@
   "use strict";
 
   // ============================================================
-  // ENVIRONMENTAL MONITORING
-  // FLOOD / FOREST FIRE / AIR QUALITY
+  // PAGE IDENTIFICATION
   // ============================================================
 
-  const page = document.body.dataset.hazard;
+  const page =
+    document.body.dataset.hazard;
 
   const NODE_ID = "NODE-F01";
-  const OFFLINE_AFTER_MS = 12000;
 
   const REFRESH_MS =
-    window.APP_CONFIG?.DEMO_REFRESH_MS || 3000;
+    window.APP_CONFIG?.DEMO_REFRESH_MS || 5000;
+
+  const OFFLINE_AFTER_MS = 15000;
+
+  // ============================================================
+  // RAIN SENSOR ADC THRESHOLDS
+  // ============================================================
+
+  // < 1500        -> CRITICAL
+  // 1500 to 3500  -> MEDIUM
+  // > 3500        -> SAFE
+
+  const RAIN_MEDIUM_MIN = 1500;
+  const RAIN_SAFE_MIN = 3500;
 
   // ============================================================
   // PAGE CONFIGURATION
   // ============================================================
 
   const configs = {
-    // ----------------------------------------------------------
-    // FLOOD
-    // ----------------------------------------------------------
     flood: {
       nodeId: NODE_ID,
-
       zone: "Flood Monitoring Zone",
-
       title: "Flood Prediction & Monitoring",
-
-      subtitle:
-        "Rain and ultrasonic water-level monitoring",
-
-      riskKey: "flood_risk",
-
-      statusBannerId: "floodStatusBanner",
-
+      subtitle: "Rain and ultrasonic water-level monitoring",
       summaryId: "floodRiskSummary",
-
       nodeStatusId: "floodNodeStatus",
+      statusBannerId: "floodStatusBanner",
 
       metrics: [
         {
           label: "Water Level",
           key: "water_level",
-
           format(value) {
-            return formatNumber(
-              value,
-              1,
-              " cm"
-            );
+            return formatNumber(value, 1, " cm");
           }
         },
-
         {
           label: "Rain Sensor",
           key: "rainfall",
-
           format(value) {
-            return formatNumber(
-              value,
-              0,
-              " ADC"
-            );
+            return formatNumber(value, 0, " ADC");
           }
         },
-
         {
           label: "Temperature",
           key: "temperature",
-
           format(value) {
-            return formatNumber(
-              value,
-              1,
-              " °C"
-            );
+            return formatNumber(value, 1, " °C");
           }
         },
-
         {
           label: "Humidity",
           key: "humidity",
-
           format(value) {
-            return formatNumber(
-              value,
-              1,
-              " %"
-            );
+            return formatNumber(value, 1, " %");
           }
         }
       ],
@@ -98,100 +75,56 @@
         return [
           {
             name: "Water Level",
-
             values: history.map(
-              (reading) =>
-                numberOrNull(
-                  reading.water_level
-                )
+              (reading) => numberOrNull(reading.water_level)
             )
           },
-
           {
             name: "Rain ADC",
-
             values: history.map(
-              (reading) =>
-                numberOrNull(
-                  reading.rainfall
-                )
+              (reading) => numberOrNull(reading.rainfall)
             )
           }
         ];
       }
     },
 
-    // ----------------------------------------------------------
-    // FOREST FIRE
-    // ----------------------------------------------------------
     fire: {
       nodeId: NODE_ID,
-
       zone: "Forest Monitoring Zone",
-
       title: "Forest Fire Monitoring",
-
-      subtitle:
-        "Temperature, humidity and MQ-2 smoke/gas monitoring",
-
-      riskKey: "fire_risk",
-
-      statusBannerId: "fireStatusBanner",
-
+      subtitle: "Temperature, humidity, smoke and gas monitoring",
       summaryId: "fireRiskSummary",
-
       nodeStatusId: "fireNodeStatus",
+      statusBannerId: "fireStatusBanner",
 
       metrics: [
         {
           label: "Temperature",
           key: "temperature",
-
           format(value) {
-            return formatNumber(
-              value,
-              1,
-              " °C"
-            );
+            return formatNumber(value, 1, " °C");
           }
         },
-
         {
           label: "Humidity",
           key: "humidity",
-
           format(value) {
-            return formatNumber(
-              value,
-              1,
-              " %"
-            );
+            return formatNumber(value, 1, " %");
           }
         },
-
         {
           label: "Smoke",
           key: "smoke",
-
           format(value) {
-            return formatNumber(
-              value,
-              0,
-              " ppm"
-            );
+            return formatNumber(value, 0, " ppm");
           }
         },
-
         {
           label: "Gas",
           key: "gas",
-
           format(value) {
-            return formatNumber(
-              value,
-              0,
-              " ppm"
-            );
+            return formatNumber(value, 0, " ppm");
           }
         }
       ],
@@ -200,107 +133,59 @@
         return [
           {
             name: "Temperature",
-
             values: history.map(
-              (reading) =>
-                numberOrNull(
-                  reading.temperature
-                )
+              (reading) => numberOrNull(reading.temperature)
             )
           },
-
           {
-            name: "MQ-2 Gas",
-
+            name: "Gas",
             values: history.map(
-              (reading) =>
-                numberOrNull(
-                  reading.gas
-                )
+              (reading) => numberOrNull(reading.gas)
             )
           }
         ];
       }
     },
 
-    // ----------------------------------------------------------
-    // AIR QUALITY
-    // ----------------------------------------------------------
     air: {
       nodeId: NODE_ID,
-
       zone: "Air Quality Monitoring Zone",
-
       title: "Air Pollution Monitoring",
-
-      subtitle:
-        "MQ-2 gas and environmental monitoring",
-
-      riskKey: "air_risk",
-
-      statusBannerId: "airStatusBanner",
-
+      subtitle: "Gas and environmental monitoring",
       summaryId: "airRiskSummary",
-
       nodeStatusId: "airNodeStatus",
+      statusBannerId: "airStatusBanner",
 
       metrics: [
         {
           label: "PM2.5",
           key: "pm25",
-
           format(value) {
-            if (
-              value === null ||
-              value === undefined
-            ) {
+            if (value === null || value === undefined) {
               return "Unavailable";
             }
-
-            return formatNumber(
-              value,
-              0,
-              " µg/m³"
-            );
+            return formatNumber(value, 0, " µg/m³");
           }
         },
-
         {
           label: "Gas",
           key: "gas",
-
           format(value) {
-            return formatNumber(
-              value,
-              0,
-              " ppm"
-            );
+            return formatNumber(value, 0, " ppm");
           }
         },
-
         {
           label: "Temperature",
           key: "temperature",
-
           format(value) {
-            return formatNumber(
-              value,
-              1,
-              " °C"
-            );
+            return formatNumber(value, 1, " °C");
           }
         },
-
         {
           label: "Humidity",
           key: "humidity",
-
           format(value) {
-            return formatNumber(
-              value,
-              1,
-              " %"
-            );
+            return formatNumber(value, 1, " %");
           }
         }
       ],
@@ -308,24 +193,15 @@
       chartSeries(history) {
         return [
           {
-            name: "MQ-2 Gas",
-
+            name: "Gas",
             values: history.map(
-              (reading) =>
-                numberOrNull(
-                  reading.gas
-                )
+              (reading) => numberOrNull(reading.gas)
             )
           },
-
           {
             name: "Temperature",
-
             values: history.map(
-              (reading) =>
-                numberOrNull(
-                  reading.temperature
-                )
+              (reading) => numberOrNull(reading.temperature)
             )
           }
         ];
@@ -333,18 +209,10 @@
     }
   };
 
-  // ============================================================
-  // CURRENT PAGE
-  // ============================================================
-
   const config = configs[page];
 
   if (!config) {
-    console.error(
-      "Unknown hazard page:",
-      page
-    );
-
+    console.error("Invalid hazard page:", page);
     return;
   }
 
@@ -364,62 +232,55 @@
     return document.getElementById(id);
   }
 
-  function setText(
-    id,
-    value
-  ) {
-    const element =
-      getElement(id);
+  function setText(id, value) {
+    const element = getElement(id);
 
     if (!element) {
       return;
     }
 
     element.textContent =
-      value === null ||
-      value === undefined ||
-      value === ""
+      value === null || value === undefined || value === ""
         ? "--"
         : value;
   }
 
+  function setStatus(id, value) {
+    const element = getElement(id);
+
+    if (!element) {
+      return;
+    }
+
+    const risk = normalizeRisk(value);
+
+    element.textContent = risk;
+    element.className =
+      "status-pill status-" + risk.toLowerCase();
+  }
+
   // ============================================================
-  // NUMBER HELPERS
+  // VALUE HELPERS
   // ============================================================
 
   function numberOrNull(value) {
-    if (
-      value === null ||
-      value === undefined ||
-      value === ""
-    ) {
+    if (value === null || value === undefined || value === "") {
       return null;
     }
 
-    const number =
-      Number(value);
+    const number = Number(value);
 
-    return Number.isFinite(number)
-      ? number
-      : null;
+    return Number.isFinite(number) ? number : null;
   }
 
-  function formatNumber(
-    value,
-    decimals = 1,
-    suffix = ""
-  ) {
-    const number =
-      numberOrNull(value);
+  function formatNumber(value, decimals = 1, suffix = "") {
+    const number = numberOrNull(value);
 
     if (number === null) {
       return "--";
     }
 
-    return (
-      number.toFixed(decimals) +
-      suffix
-    );
+    return number.toFixed(decimals) + suffix;
   }
 
   // ============================================================
@@ -431,26 +292,18 @@
       return null;
     }
 
-    let dateValue =
-      String(value);
+    let text = String(value);
 
     const hasTimezone =
-      /Z$|[+-]\d{2}:\d{2}$/.test(
-        dateValue
-      );
+      /Z$|[+-]\d{2}:\d{2}$/.test(text);
 
     if (!hasTimezone) {
-      dateValue += "Z";
+      text += "Z";
     }
 
-    const date =
-      new Date(dateValue);
+    const date = new Date(text);
 
-    if (
-      Number.isNaN(
-        date.getTime()
-      )
-    ) {
+    if (Number.isNaN(date.getTime())) {
       return null;
     }
 
@@ -458,215 +311,94 @@
   }
 
   function formatDateTime(value) {
-    const date =
-      parseBackendDate(value);
+    const date = parseBackendDate(value);
 
     if (!date) {
       return "--";
     }
 
-    return new Intl.DateTimeFormat(
-      "en-IN",
-      {
-        timeZone:
-          "Asia/Kolkata",
-
-        day:
-          "2-digit",
-
-        month:
-          "short",
-
-        year:
-          "numeric",
-
-        hour:
-          "2-digit",
-
-        minute:
-          "2-digit",
-
-        second:
-          "2-digit",
-
-        hour12:
-          true
-      }
-    ).format(date);
+    return new Intl.DateTimeFormat("en-IN", {
+      timeZone: "Asia/Kolkata",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true
+    }).format(date);
   }
 
-  function createChartLabel(
-    reading
-  ) {
-    const date =
-      parseBackendDate(
-        reading?.created_at
-      );
+  function createChartLabel(reading) {
+    const date = parseBackendDate(reading?.created_at);
 
     if (!date) {
       return "";
     }
 
-    return new Intl.DateTimeFormat(
-      "en-IN",
-      {
-        timeZone:
-          "Asia/Kolkata",
-
-        hour:
-          "2-digit",
-
-        minute:
-          "2-digit",
-
-        second:
-          "2-digit",
-
-        hour12:
-          true
-      }
-    ).format(date);
+    return new Intl.DateTimeFormat("en-IN", {
+      timeZone: "Asia/Kolkata",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true
+    }).format(date);
   }
 
   // ============================================================
-  // ONLINE / OFFLINE
+  // RISK HELPERS
   // ============================================================
 
-  function isReadingStale(
-    reading
-  ) {
-    if (
-      !reading ||
-      !reading.created_at
-    ) {
-      return true;
-    }
+  function normalizeRisk(value) {
+    const risk = String(value || "UNKNOWN").trim().toUpperCase();
 
-    const readingDate =
-      parseBackendDate(
-        reading.created_at
-      );
-
-    if (!readingDate) {
-      return true;
-    }
-
-    const age =
-      Date.now() -
-      readingDate.getTime();
-
-    return (
-      age >
-      OFFLINE_AFTER_MS
-    );
-  }
-
-  function isHardwareOnline() {
-    if (!latestReading) {
-      return false;
-    }
-
-    if (
-      latestReading.online ===
-      false
-    ) {
-      return false;
-    }
-
-    return !isReadingStale(
-      latestReading
-    );
-  }
-
-  // ============================================================
-  // RISK NORMALIZATION
-  // ============================================================
-
-  function normalizeRisk(
-    value
-  ) {
-    const risk =
-      String(
-        value || "UNKNOWN"
-      )
-        .trim()
-        .toUpperCase();
-
-    if (
-      risk === "SAFE" ||
-      risk === "MEDIUM" ||
-      risk === "CRITICAL" ||
-      risk === "OFFLINE"
-    ) {
+    if (["SAFE", "MEDIUM", "CRITICAL", "UNKNOWN", "OFFLINE"].includes(risk)) {
       return risk;
     }
 
-    // Old compatibility
-    if (
-      risk === "HIGH" ||
-      risk === "DANGER"
-    ) {
-      return "CRITICAL";
+    if (risk === "LOW" || risk === "NORMAL") {
+      return "SAFE";
     }
 
-    if (
-      risk === "LOW" ||
-      risk === "NORMAL"
-    ) {
-      return "SAFE";
+    if (risk === "HIGH" || risk === "DANGER") {
+      return "CRITICAL";
     }
 
     return "UNKNOWN";
   }
 
-  function setStatus(
-    id,
-    value
-  ) {
-    const element =
-      getElement(id);
+  function riskPriority(value) {
+    const risk = normalizeRisk(value);
 
-    if (!element) {
-      return;
-    }
-
-    const risk =
-      normalizeRisk(value);
-
-    element.textContent =
-      risk;
-
-    element.className =
-      "status-pill status-" +
-      risk.toLowerCase();
-  }
-
-  function riskPriority(
-    value
-  ) {
-    const risk =
-      normalizeRisk(value);
-
-    const priority = {
+    const mapping = {
       UNKNOWN: -1,
+      OFFLINE: -1,
       SAFE: 0,
       MEDIUM: 1,
-      CRITICAL: 2,
-      OFFLINE: -1
+      CRITICAL: 2
     };
 
-    return priority[risk] ?? -1;
+    return mapping[risk] ?? -1;
+  }
+
+  function maxRisk(levels) {
+    let highest = "SAFE";
+
+    levels.forEach((level) => {
+      if (riskPriority(level) > riskPriority(highest)) {
+        highest = level;
+      }
+    });
+
+    return highest;
   }
 
   // ============================================================
-  // LOCAL SENSOR CLASSIFIERS
+  // SENSOR CLASSIFIERS
   // ============================================================
 
-  function classifyWater(
-    value
-  ) {
-    const water =
-      numberOrNull(value);
+  function classifyWater(value) {
+    const water = numberOrNull(value);
 
     if (water === null) {
       return "UNKNOWN";
@@ -683,88 +415,62 @@
     return "CRITICAL";
   }
 
-  function classifyRain(
-    value
-  ) {
-    const rain =
-      numberOrNull(value);
+  function classifyRain(value) {
+    const rain = numberOrNull(value);
 
     if (rain === null) {
       return "UNKNOWN";
     }
 
-    // Raw ADC:
-    // higher = drier
-    // lower = wetter
-
-    if (rain > 2000) {
+    if (rain > RAIN_SAFE_MIN) {
       return "SAFE";
     }
 
-    if (rain > 1000) {
+    if (rain >= RAIN_MEDIUM_MIN) {
       return "MEDIUM";
     }
 
     return "CRITICAL";
   }
 
-  function rainCondition(
-    value
-  ) {
-    const rain =
-      numberOrNull(value);
+  function rainCondition(value) {
+    const rain = numberOrNull(value);
 
     if (rain === null) {
       return "Unavailable";
     }
 
-    if (rain > 3000) {
-      return "NO RAIN";
-    }
-
-    if (rain > 2000) {
-      return "LOW RAIN";
-    }
-
-    if (rain > 1000) {
-      return "MEDIUM RAIN";
-    }
-
-    return "HIGH RAIN";
-  }
-
-  function classifyTemperature(
-    value
-  ) {
-    const temperature =
-      numberOrNull(value);
-
-    if (
-      temperature === null
-    ) {
-      return "UNKNOWN";
-    }
-
-    if (
-      temperature < 25
-    ) {
+    if (rain > RAIN_SAFE_MIN) {
       return "SAFE";
     }
 
-    if (
-      temperature <= 30
-    ) {
+    if (rain >= RAIN_MEDIUM_MIN) {
       return "MEDIUM";
     }
 
     return "CRITICAL";
   }
 
-  function classifyGas(
-    value
-  ) {
-    const gas =
-      numberOrNull(value);
+  function classifyTemperature(value) {
+    const temperature = numberOrNull(value);
+
+    if (temperature === null) {
+      return "UNKNOWN";
+    }
+
+    if (temperature < 25) {
+      return "SAFE";
+    }
+
+    if (temperature <= 30) {
+      return "MEDIUM";
+    }
+
+    return "CRITICAL";
+  }
+
+  function classifyGas(value) {
+    const gas = numberOrNull(value);
 
     if (gas === null) {
       return "UNKNOWN";
@@ -781,84 +487,54 @@
     return "CRITICAL";
   }
 
-  // ============================================================
-  // PAGE-SPECIFIC FALLBACK RISK
-  // ============================================================
+  function classifyPm25(value) {
+    const pm25 = numberOrNull(value);
 
-  function calculateFloodRisk() {
-    const waterRisk =
-      classifyWater(
-        latestReading?.water_level
-      );
-
-    const rainRisk =
-      classifyRain(
-        latestReading?.rainfall
-      );
-
-    return (
-      riskPriority(waterRisk) >=
-      riskPriority(rainRisk)
-        ? waterRisk
-        : rainRisk
-    );
-  }
-
-  function calculateFireRisk() {
-    const tempRisk =
-      classifyTemperature(
-        latestReading?.temperature
-      );
-
-    const smokeRisk =
-      classifyGas(
-        latestReading?.smoke
-      );
-
-    const gasRisk =
-      classifyGas(
-        latestReading?.gas
-      );
-
-    const risks = [
-      tempRisk,
-      smokeRisk,
-      gasRisk
-    ];
-
-    return risks.reduce(
-      (highest, current) =>
-        riskPriority(current) >
-        riskPriority(highest)
-          ? current
-          : highest,
-      "SAFE"
-    );
-  }
-
-  function calculateAirRisk() {
-    return classifyGas(
-      latestReading?.gas
-    );
-  }
-
-  function getCurrentHazardRisk() {
-    if (!latestReading) {
+    if (pm25 === null) {
       return "UNKNOWN";
     }
 
-    const backendRisk =
-      normalizeRisk(
-        latestReading[
-          config.riskKey
-        ]
-      );
+    if (pm25 <= 60) {
+      return "SAFE";
+    }
 
-    if (
-      backendRisk !==
-      "UNKNOWN"
-    ) {
-      return backendRisk;
+    if (pm25 <= 120) {
+      return "MEDIUM";
+    }
+
+    return "CRITICAL";
+  }
+
+  // ============================================================
+  // RISK CALCULATION BY PAGE
+  // ============================================================
+
+  function calculateFloodRisk() {
+    return maxRisk([
+      classifyWater(latestReading?.water_level),
+      classifyRain(latestReading?.rainfall)
+    ]);
+  }
+
+  function calculateFireRisk() {
+    return maxRisk([
+      classifyTemperature(latestReading?.temperature),
+      classifyGas(latestReading?.smoke),
+      classifyGas(latestReading?.gas)
+    ]);
+  }
+
+  function calculateAirRisk() {
+    return maxRisk([
+      classifyGas(latestReading?.gas),
+      classifyPm25(latestReading?.pm25),
+      classifyTemperature(latestReading?.temperature)
+    ]);
+  }
+
+  function getCurrentPageRisk() {
+    if (!latestReading) {
+      return "UNKNOWN";
     }
 
     if (page === "flood") {
@@ -873,205 +549,128 @@
       return calculateAirRisk();
     }
 
-    return "UNKNOWN";
+    return normalizeRisk(latestReading.risk_level);
   }
 
   // ============================================================
-  // NORMALIZE HISTORY
+  // ONLINE / OFFLINE
   // ============================================================
 
-  function normalizeHistory(
-    data
-  ) {
-    if (
-      Array.isArray(data)
-    ) {
-      return data;
+  function isReadingStale(reading) {
+    if (!reading || !reading.created_at) {
+      return true;
     }
 
-    if (
-      Array.isArray(
-        data?.readings
-      )
-    ) {
-      return data.readings;
+    const readingTime = parseBackendDate(reading.created_at);
+
+    if (!readingTime) {
+      return true;
     }
 
-    if (
-      Array.isArray(
-        data?.data
-      )
-    ) {
-      return data.data;
-    }
+    return Date.now() - readingTime.getTime() > OFFLINE_AFTER_MS;
+  }
 
-    return [];
+  function isHardwareOnline() {
+    return latestReading && !isReadingStale(latestReading);
   }
 
   // ============================================================
-  // HEADER
+  // RENDER HEADER
   // ============================================================
 
   function renderHeader() {
-    setText(
-      "pageTitle",
-      config.title
-    );
-
-    setText(
-      "pageSubtitle",
-      config.subtitle
-    );
-
-    setText(
-      "nodeId",
-      config.nodeId
-    );
-
-    setText(
-      "zone",
-      config.zone
-    );
+    setText("pageTitle", config.title);
+    setText("pageSubtitle", config.subtitle);
+    setText("nodeId", config.nodeId);
+    setText("zone", config.zone);
   }
 
   // ============================================================
-  // MAIN RISK
+  // RENDER MAIN STATUS
   // ============================================================
 
-  function renderRisk() {
-    if (!latestReading) {
-      setStatus(
-        "riskLevel",
-        "UNKNOWN"
+  function renderMainRisk() {
+    setStatus("riskLevel", getCurrentPageRisk());
+  }
+
+  function renderConnectionStatus() {
+    setText(
+      "updatedAt",
+      latestReading ? formatDateTime(latestReading.created_at) : "--"
+    );
+
+    if (config.nodeStatusId) {
+      setText(
+        config.nodeStatusId,
+        isHardwareOnline() ? "ONLINE" : "OFFLINE"
       );
-
-      return;
     }
-
-    setStatus(
-      "riskLevel",
-      getCurrentHazardRisk()
-    );
   }
 
   // ============================================================
-  // METRICS
+  // RENDER METRICS
   // ============================================================
 
   function renderEmptyMetrics() {
-    const container =
-      getElement("metrics");
+    const container = getElement("metrics");
 
     if (!container) {
       return;
     }
 
-    container.innerHTML =
-      config.metrics
-        .map(
-          (metric) => `
-            <div class="metric">
-              <span>
-                ${metric.label}
-              </span>
-
-              <b>
-                --
-              </b>
-            </div>
-          `
-        )
-        .join("");
+    container.innerHTML = config.metrics
+      .map(
+        (metric) => `
+          <div class="metric">
+            <span>${metric.label}</span>
+            <b>--</b>
+          </div>
+        `
+      )
+      .join("");
   }
 
   function renderMetrics() {
-    const container =
-      getElement("metrics");
+    const container = getElement("metrics");
 
     if (!container) {
       return;
     }
-
-    // IMPORTANT:
-    // Show latest database values even if the ESP32
-    // is currently offline.
 
     if (!latestReading) {
       renderEmptyMetrics();
       return;
     }
 
-    container.innerHTML =
-      config.metrics
-        .map(
-          (metric) => {
-            const value =
-              latestReading[
-                metric.key
-              ];
-
-            return `
-              <div class="metric">
-                <span>
-                  ${metric.label}
-                </span>
-
-                <b>
-                  ${metric.format(value)}
-                </b>
-              </div>
-            `;
-          }
-        )
-        .join("");
+    container.innerHTML = config.metrics
+      .map((metric) => {
+        return `
+          <div class="metric">
+            <span>${metric.label}</span>
+            <b>${metric.format(latestReading[metric.key])}</b>
+          </div>
+        `;
+      })
+      .join("");
   }
 
   // ============================================================
-  // CHART
+  // RENDER CHART
   // ============================================================
 
   function renderChart() {
-    const canvas =
-      getElement(
-        "trendChart"
-      );
+    const canvas = getElement("trendChart");
 
-    if (
-      !canvas ||
-      !window.SimpleCharts
-    ) {
+    if (!canvas || !window.SimpleCharts) {
       return;
     }
 
-    if (
-      historyData.length ===
-      0
-    ) {
-      window.SimpleCharts.drawLine(
-        canvas,
-
-        {
-          name: "No Data",
-          values: []
-        },
-
-        null,
-
-        []
-      );
-
+    if (historyData.length === 0) {
       return;
     }
 
-    const series =
-      config.chartSeries(
-        historyData
-      );
-
-    const labels =
-      historyData.map(
-        createChartLabel
-      );
+    const series = config.chartSeries(historyData);
+    const labels = historyData.map(createChartLabel);
 
     window.SimpleCharts.drawLine(
       canvas,
@@ -1082,356 +681,140 @@
   }
 
   // ============================================================
-  // CONNECTION STATUS
+  // RENDER SUMMARY / BANNER
   // ============================================================
 
-  function renderConnectionStatus() {
-    const online =
-      isHardwareOnline();
+  function renderSummary() {
+    const risk = getCurrentPageRisk();
 
-    setText(
-      "updatedAt",
+    let message = "Monitoring data available.";
 
-      latestReading
-        ? formatDateTime(
-            latestReading.created_at
-          )
-        : "--"
-    );
-
-    if (
-      config.nodeStatusId
-    ) {
-      setText(
-        config.nodeStatusId,
-
-        online
-          ? "ONLINE"
-          : "OFFLINE"
-      );
-    }
-  }
-
-  // ============================================================
-  // STATUS BANNER
-  // ============================================================
-
-  function renderStatusBanner() {
-    if (!latestReading) {
-      setText(
-        config.summaryId,
-        "No sensor data is available."
-      );
-
-      return;
+    if (risk === "SAFE") {
+      message = "Current readings are in the safe range.";
+    } else if (risk === "MEDIUM") {
+      message = "Current readings indicate a medium-risk condition.";
+    } else if (risk === "CRITICAL") {
+      message = "Critical condition detected. Immediate attention is required.";
     }
 
-    const risk =
-      getCurrentHazardRisk();
+    if (!isHardwareOnline()) {
+      message += " Showing the latest stored reading.";
+    }
 
-    const banner =
-      getElement(
-        config.statusBannerId
-      );
+    setText(config.summaryId, message);
 
+    const banner = getElement(config.statusBannerId);
     if (banner) {
-      banner.dataset.risk =
-        risk.toLowerCase();
+      banner.dataset.risk = risk.toLowerCase();
     }
-
-    let message =
-      "Monitoring data available.";
-
-    if (
-      risk === "SAFE"
-    ) {
-      message =
-        `${config.title}: monitored values are within the configured safe range.`;
-    }
-
-    if (
-      risk === "MEDIUM"
-    ) {
-      message =
-        `${config.title}: one or more monitored values are in the medium-risk range.`;
-    }
-
-    if (
-      risk === "CRITICAL"
-    ) {
-      message =
-        `${config.title}: critical conditions detected. Review the current readings and Alert Center.`;
-    }
-
-    if (
-      !isHardwareOnline()
-    ) {
-      message +=
-        ` ${NODE_ID} is currently offline. Showing the latest stored reading.`;
-    }
-
-    setText(
-      config.summaryId,
-      message
-    );
   }
 
   // ============================================================
-  // FLOOD DETAILS
+  // FLOOD-SPECIFIC DETAILS
   // ============================================================
 
   function renderFloodDetails() {
-    if (
-      page !== "flood"
-    ) {
+    if (page !== "flood") {
       return;
     }
 
     if (!latestReading) {
-      setStatus(
-        "waterThresholdStatus",
-        "UNKNOWN"
-      );
-
-      setText(
-        "rainConditionStatus",
-        "Unavailable"
-      );
-
-      setText(
-        "mlFloodStatus",
-        "Unavailable"
-      );
-
-      setStatus(
-        "finalFloodRisk",
-        "UNKNOWN"
-      );
-
+      setStatus("waterThresholdStatus", "UNKNOWN");
+      setText("rainConditionStatus", "Unavailable");
+      setText("mlFloodStatus", "Unavailable");
+      setStatus("finalFloodRisk", "UNKNOWN");
       return;
     }
 
-    const waterStatus =
-      normalizeRisk(
-        latestReading
-          ?.water_level_status
-      ) !== "UNKNOWN"
-        ? normalizeRisk(
-            latestReading
-              ?.water_level_status
-          )
-        : classifyWater(
-            latestReading
-              ?.water_level
-          );
+    const waterStatus = classifyWater(latestReading.water_level);
+    const rainStatus = classifyRain(latestReading.rainfall);
+    const finalRisk = maxRisk([waterStatus, rainStatus]);
 
-    const rainStatus =
-      normalizeRisk(
-        latestReading
-          ?.rain_status
-      ) !== "UNKNOWN"
-        ? normalizeRisk(
-            latestReading
-              ?.rain_status
-          )
-        : classifyRain(
-            latestReading
-              ?.rainfall
-          );
-
-    setStatus(
-      "waterThresholdStatus",
-      waterStatus
-    );
-
-    setText(
-      "rainConditionStatus",
-
-      latestReading
-        ?.rain_condition ||
-        rainCondition(
-          latestReading
-            ?.rainfall
-        )
-    );
-
-    // ML value is currently not stored
-    // in the backend reading.
-
-    setText(
-      "mlFloodStatus",
-      "Unavailable"
-    );
-
-    setStatus(
-      "finalFloodRisk",
-      latestReading
-        ?.flood_risk ||
-        calculateFloodRisk()
-    );
+    setStatus("waterThresholdStatus", waterStatus);
+    setText("rainConditionStatus", rainCondition(latestReading.rainfall));
+    setText("mlFloodStatus", "Unavailable");
+    setStatus("finalFloodRisk", finalRisk);
   }
 
   // ============================================================
-  // FOREST FIRE DETAILS
+  // FIRE-SPECIFIC DETAILS
   // ============================================================
 
   function renderFireDetails() {
-    if (
-      page !== "fire"
-    ) {
+    if (page !== "fire") {
       return;
     }
 
     if (!latestReading) {
-      setStatus(
-        "fireTemperatureStatus",
-        "UNKNOWN"
-      );
-
-      setText(
-        "fireHumidityStatus",
-        "Unavailable"
-      );
-
-      setStatus(
-        "fireSmokeStatus",
-        "UNKNOWN"
-      );
-
-      setStatus(
-        "fireGasStatus",
-        "UNKNOWN"
-      );
-
+      setStatus("fireTemperatureStatus", "UNKNOWN");
+      setText("fireHumidityStatus", "Unavailable");
+      setStatus("fireSmokeStatus", "UNKNOWN");
+      setStatus("fireGasStatus", "UNKNOWN");
       return;
     }
 
     setStatus(
       "fireTemperatureStatus",
-
-      latestReading
-        ?.temperature_status ||
-        classifyTemperature(
-          latestReading
-            ?.temperature
-        )
+      classifyTemperature(latestReading.temperature)
     );
 
     setText(
       "fireHumidityStatus",
-
-      numberOrNull(
-        latestReading
-          ?.humidity
-      ) === null
+      latestReading.humidity === null || latestReading.humidity === undefined
         ? "Unavailable"
-        : "DISPLAY ONLY"
+        : formatNumber(latestReading.humidity, 1, " %")
     );
 
     setStatus(
       "fireSmokeStatus",
-
-      latestReading
-        ?.smoke_status ||
-        classifyGas(
-          latestReading
-            ?.smoke
-        )
+      classifyGas(latestReading.smoke)
     );
 
     setStatus(
       "fireGasStatus",
-
-      latestReading
-        ?.gas_status ||
-        classifyGas(
-          latestReading
-            ?.gas
-        )
+      classifyGas(latestReading.gas)
     );
   }
 
   // ============================================================
-  // AIR QUALITY DETAILS
+  // AIR-SPECIFIC DETAILS
   // ============================================================
 
   function renderAirDetails() {
-    if (
-      page !== "air"
-    ) {
+    if (page !== "air") {
       return;
     }
 
     if (!latestReading) {
-      setText(
-        "airPm25Status",
-        "Unavailable"
-      );
-
-      setStatus(
-        "airGasStatus",
-        "UNKNOWN"
-      );
-
-      setText(
-        "airTemperatureStatus",
-        "Unavailable"
-      );
-
-      setText(
-        "airHumidityStatus",
-        "Unavailable"
-      );
-
+      setText("airPm25Status", "Unavailable");
+      setStatus("airGasStatus", "UNKNOWN");
+      setText("airTemperatureStatus", "Unavailable");
+      setText("airHumidityStatus", "Unavailable");
       return;
     }
 
-    // No PM2.5 sensor is connected.
-    // Do not create fake PM2.5 values.
-
     setText(
       "airPm25Status",
-
-      latestReading
-        ?.pm25 === null ||
-      latestReading
-        ?.pm25 === undefined
-
+      latestReading.pm25 === null || latestReading.pm25 === undefined
         ? "Unavailable"
-        : "Measured"
+        : classifyPm25(latestReading.pm25)
     );
 
     setStatus(
       "airGasStatus",
-
-      latestReading
-        ?.gas_status ||
-        classifyGas(
-          latestReading
-            ?.gas
-        )
+      classifyGas(latestReading.gas)
     );
 
     setText(
       "airTemperatureStatus",
-
-      numberOrNull(
-        latestReading
-          ?.temperature
-      ) === null
-        ? "Unavailable"
-        : "DISPLAY ONLY"
+      classifyTemperature(latestReading.temperature)
     );
 
     setText(
       "airHumidityStatus",
-
-      numberOrNull(
-        latestReading
-          ?.humidity
-      ) === null
+      latestReading.humidity === null || latestReading.humidity === undefined
         ? "Unavailable"
-        : "DISPLAY ONLY"
+        : formatNumber(latestReading.humidity, 1, " %")
     );
   }
 
@@ -1439,147 +822,67 @@
   // CRITICAL POPUP
   // ============================================================
 
-  function maybeShowCriticalPopup() {
-    if (!latestReading) {
+  function showCriticalPopupIfNeeded() {
+    const risk = getCurrentPageRisk();
+
+    if (!isHardwareOnline()) {
       return;
     }
 
-    if (
-      !isHardwareOnline()
-    ) {
-      return;
-    }
+    const storageKey = `popup-risk-${page}`;
+    const oldRisk = sessionStorage.getItem(storageKey);
 
-    const currentRisk =
-      getCurrentHazardRisk();
-
-    const storageKey =
-      `hazard-state-${page}`;
-
-    const previousRisk =
-      sessionStorage.getItem(
-        storageKey
-      );
-
-    if (
-      currentRisk ===
-        "CRITICAL" &&
-      previousRisk !==
-        "CRITICAL"
-    ) {
-      const title =
-        page === "flood"
-          ? "Critical Flood Condition"
-          : page === "fire"
-            ? "Critical Fire Condition"
-            : "Critical Air Quality Condition";
-
-      window.alert(
-        `${title}\n\n` +
-        `Node: ${NODE_ID}\n` +
-        `Recorded: ${formatDateTime(
-          latestReading.created_at
-        )}`
+    if (risk === "CRITICAL" && oldRisk !== "CRITICAL") {
+      alert(
+        `CRITICAL ALERT\n\n` +
+          `Page: ${config.title}\n` +
+          `Node: ${NODE_ID}\n` +
+          `Time: ${formatDateTime(latestReading.created_at)}`
       );
     }
 
-    sessionStorage.setItem(
-      storageKey,
-      currentRisk
-    );
+    sessionStorage.setItem(storageKey, risk);
   }
 
   // ============================================================
-  // COMPLETE RENDER
+  // RENDER ALL
   // ============================================================
 
-  function render() {
+  function renderAll() {
     renderHeader();
-
-    renderRisk();
-
-    renderMetrics();
-
-    renderChart();
-
+    renderMainRisk();
     renderConnectionStatus();
-
-    renderStatusBanner();
-
+    renderMetrics();
+    renderChart();
+    renderSummary();
     renderFloodDetails();
-
     renderFireDetails();
-
     renderAirDetails();
-
-    maybeShowCriticalPopup();
+    showCriticalPopupIfNeeded();
   }
 
   // ============================================================
-  // LOAD LATEST READING
+  // HISTORY NORMALIZATION
   // ============================================================
 
-  async function loadLatestReading() {
-    latestReading =
-      await window.getLatestReading(
-        config.nodeId
-      );
+  function normalizeHistory(data) {
+    if (Array.isArray(data)) {
+      return data;
+    }
 
-    console.log(
-      `${page.toUpperCase()} LATEST READING:`,
-      latestReading
-    );
+    if (Array.isArray(data?.readings)) {
+      return data.readings;
+    }
+
+    if (Array.isArray(data?.data)) {
+      return data.data;
+    }
+
+    return [];
   }
 
   // ============================================================
-  // LOAD HISTORY
-  // ============================================================
-
-  async function loadHistory() {
-    const response =
-      await window.getNodeHistory(
-        config.nodeId,
-        20
-      );
-
-    const readings =
-      normalizeHistory(
-        response
-      );
-
-    historyData =
-      [...readings].sort(
-        (a, b) => {
-          const dateA =
-            parseBackendDate(
-              a.created_at
-            );
-
-          const dateB =
-            parseBackendDate(
-              b.created_at
-            );
-
-          const timeA =
-            dateA
-              ? dateA.getTime()
-              : 0;
-
-          const timeB =
-            dateB
-              ? dateB.getTime()
-              : 0;
-
-          return (
-            timeA -
-            timeB
-          );
-        }
-      );
-  }
-
-  // ============================================================
-  // LOAD LIVE DATA
+  // LOAD DATA
   // ============================================================
 
   async function loadLiveData() {
@@ -1590,39 +893,23 @@
     loading = true;
 
     try {
-      const results =
-        await Promise.allSettled([
-          loadLatestReading(),
-          loadHistory()
-        ]);
+      const latest = await window.getLatestReading(config.nodeId);
+      const history = await window.getNodeHistory(config.nodeId, 20);
 
-      const latestResult =
-        results[0];
+      latestReading = latest;
 
-      const historyResult =
-        results[1];
+      historyData = normalizeHistory(history).sort((a, b) => {
+        const timeA = parseBackendDate(a.created_at)?.getTime() || 0;
+        const timeB = parseBackendDate(b.created_at)?.getTime() || 0;
+        return timeA - timeB;
+      });
 
-      if (
-        latestResult.status ===
-        "rejected"
-      ) {
-        console.error(
-          "Latest reading request failed:",
-          latestResult.reason
-        );
-      }
+      console.log("Latest reading:", latestReading);
+      console.log("History data:", historyData);
 
-      if (
-        historyResult.status ===
-        "rejected"
-      ) {
-        console.error(
-          "History request failed:",
-          historyResult.reason
-        );
-      }
-
-      render();
+      renderAll();
+    } catch (error) {
+      console.error("Hazard page load failed:", error);
     } finally {
       loading = false;
     }
@@ -1633,70 +920,45 @@
   // ============================================================
 
   function setupRefreshButton() {
-    const button =
-      getElement(
-        "simulateBtn"
-      );
+    const button = getElement("simulateBtn");
 
     if (!button) {
       return;
     }
 
-    button.textContent =
-      "Refresh Live Data";
+    button.textContent = "Refresh Live Data";
 
-    button.addEventListener(
-      "click",
-      () => {
-        loadLiveData();
-      }
-    );
+    button.addEventListener("click", function () {
+      loadLiveData();
+    });
   }
 
   // ============================================================
-  // WINDOW RESIZE
+  // RESIZE
   // ============================================================
 
   let resizeTimer = null;
 
-  window.addEventListener(
-    "resize",
-    () => {
-      clearTimeout(
-        resizeTimer
-      );
+  window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
 
-      resizeTimer =
-        setTimeout(
-          renderChart,
-          150
-        );
-    }
-  );
+    resizeTimer = setTimeout(function () {
+      renderChart();
+    }, 150);
+  });
 
   // ============================================================
   // START
   // ============================================================
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-      console.log(
-        `${page} monitoring page loaded`
-      );
+  document.addEventListener("DOMContentLoaded", function () {
+    renderHeader();
+    renderEmptyMetrics();
+    setupRefreshButton();
+    loadLiveData();
 
-      renderHeader();
-
-      renderEmptyMetrics();
-
-      setupRefreshButton();
-
+    setInterval(function () {
       loadLiveData();
-
-      setInterval(
-        loadLiveData,
-        REFRESH_MS
-      );
-    }
-  );
+    }, REFRESH_MS);
+  });
 })();
